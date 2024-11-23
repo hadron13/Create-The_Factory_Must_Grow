@@ -25,6 +25,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Holder;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -99,7 +100,7 @@ public class CreateTFMG
         modEventBus.addListener(CreateTFMG::init);
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(EventPriority.LOWEST, TFMGDataGen::gatherData);
-        modEventBus.addListener(TFMGSoundEvents::register);
+        modEventBus.addGenericListener(SoundEvent.class, TFMGSoundEvents::register);
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> CreateTFMGClient::new);
         modEventBus.addListener(this::clientSetup);
 

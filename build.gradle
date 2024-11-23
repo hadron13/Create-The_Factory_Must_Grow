@@ -145,14 +145,14 @@ dependencies {
    implementation fg.deobf("com.simibubi.create:create-${minecraft_version}:${create_version}:all") { transitive = false }
 
 
-    implementation fg.deobf("curse.maven:createaddition-439890:5070245")
-    implementation fg.deobf("curse.maven:zinclib-968773:5110339")
+    implementation fg.deobf("curse.maven:createaddition-439890:4683727")
+    //implementation fg.deobf("curse.maven:zinclib-968773:5110339")
 
-    implementation fg.deobf("curse.maven:mekanism-268560:4644795")
+    implementation fg.deobf("curse.maven:mekanism-268560:3875976")
 
-    implementation fg.deobf("curse.maven:selene-499980:4983974")
+    implementation fg.deobf("curse.maven:selene-499980:5660287")
 
-    implementation fg.deobf("curse.maven:spark-361579:4505309")
+    implementation fg.deobf("curse.maven:spark-361579:4505375")
 
     //implementation fg.deobf("curse.maven:create-steam-n-rails-688231:5246888")
 
