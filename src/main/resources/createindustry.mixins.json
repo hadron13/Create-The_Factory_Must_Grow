@@ -12,7 +12,6 @@
     "FluidPipeBlockMixin",
     "FluidPropagatorMixin"
   ],
-  "client": [],
   "injectors": {
     "defaultRequire": 1
   }
