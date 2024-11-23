@@ -170,7 +170,8 @@ return Math.round( 13* ((float)((float)stack.getOrCreateTag().getInt("amount")/(
                 //nbt.putInt("amount", nbt.getInt("amount") + toDrain);
                 //context.getPlayer().getCooldowns().addCooldown(stack.getItem(), 20);
                 for (FlamethrowerFuelType fuelBuiltin : FlamethrowerFuelTypeManager.GLOBAL_TYPE_MAP.values()) {
-                    if (fuelBuiltin.getFluids().stream().anyMatch(supplier -> supplier.get().isSame(be.getFluid(0).getFluid()))) {
+                    // TODO: check if this works
+                    if (fuelBuiltin.getFluids().stream().anyMatch(supplier -> supplier.get().value().isSame(be.getFluid(0).getFluid()))) {
                         int toDrain = Math.min(FUEL_CAPACITY - nbt.getInt("amount"), be.getFluid(0).getAmount());
                         nbt.putString("fuel", FlamethrowerFuelTypeManager.getIdForType(fuelBuiltin).toString());
                         be.getTankInventory().drain(toDrain, IFluidHandler.FluidAction.EXECUTE);

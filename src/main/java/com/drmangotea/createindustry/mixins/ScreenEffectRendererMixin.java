@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static net.minecraft.client.renderer.ScreenEffectRenderer.renderFluid;
+//import static net.minecraft.client.renderer.ScreenEffectRenderer.renderFluid;
 
 @Mixin(ScreenEffectRenderer.class)
 public class ScreenEffectRendererMixin {
@@ -35,9 +35,10 @@ public class ScreenEffectRendererMixin {
 
     }
     private static void renderMoltenMetal(Minecraft p_110726_, PoseStack p_110727_) {
-
-        for(int i = 0 ; i<10; i++)
-            renderFluid(p_110726_, p_110727_, MOLTEN_METAL_OVERLAY);
+//TODO: re-add this
+//
+//        for(int i = 0 ; i<10; i++)
+//            renderFluid(p_110726_, p_110727_, MOLTEN_METAL_OVERLAY);
     }
 
 }

@@ -134,7 +134,7 @@ import java.util.Optional;
         return new SmartFluidTank(1000, this::onFluidStackChanged){
             @Override
             public boolean isFluidValid(FluidStack stack) {
-                return stack.getFluid().isSame(TFMGFluids.CARBON_DIOXIDE.getSource());
+                return stack.getFluid().isSame(TFMGFluids.CARBON_DIOXIDE.get());
             }
         };
     }

@@ -27,8 +27,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
@@ -120,7 +120,7 @@ public class PolarizerBlockEntity extends ElectricBlockEntity implements IHaveGo
     }
     @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
-        return cap == ForgeCapabilities.ITEM_HANDLER ? this.itemCapability.cast() : super.getCapability(cap, side);
+        return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY? this.itemCapability.cast() : super.getCapability(cap, side);
     }
 
     public boolean playerInteract(Player player, InteractionHand hand){

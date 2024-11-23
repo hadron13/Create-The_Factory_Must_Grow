@@ -25,8 +25,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
 
@@ -209,11 +209,11 @@ public class ElectricMotorBlockEntity extends GeneratingKineticBlockEntity imple
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
 
 
-        if (cap == ForgeCapabilities.ENERGY&&side == null) {
+        if (cap == CapabilityEnergy.ENERGY&&side == null) {
             return lazyEnergyHandler.cast();
         } else
 
-        if (cap == ForgeCapabilities.ENERGY&&hasElectricitySlot(side)) {
+        if (cap == CapabilityEnergy.ENERGY&&hasElectricitySlot(side)) {
             return lazyEnergyHandler.cast();
         }
 

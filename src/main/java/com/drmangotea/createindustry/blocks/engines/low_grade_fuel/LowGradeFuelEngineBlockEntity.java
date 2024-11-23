@@ -456,7 +456,7 @@ public void write(CompoundTag compound, boolean clientPacket) {
 
         ItemStack stack = pPlayer.getItemInHand(pHand);
 
-        if(stack.is(TFMGFluids.CREOSOTE.getBucket().get())&&tankInventory.isEmpty()){
+        if(stack.is(TFMGFluids.CREOSOTE.get().getBucket())&&tankInventory.isEmpty()){
 
             tankInventory.setFluid(new FluidStack(TFMGFluids.CREOSOTE.get(),1000));
             pPlayer.setItemInHand(pHand, Items.BUCKET.getDefaultInstance());

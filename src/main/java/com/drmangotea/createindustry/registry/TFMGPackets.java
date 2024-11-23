@@ -89,7 +89,7 @@ public enum TFMGPackets {
             getChannel().messageBuilder(type, index++, direction)
                     .encoder(encoder)
                     .decoder(decoder)
-                    .consumerNetworkThread(handler)
+                    .consumer(handler)
                     .add();
         }
     }

@@ -56,7 +56,7 @@ public class SteelFluidTankRenderer extends SafeBlockEntityRenderer<SteelTankBlo
             return;
 
         boolean top = fluidStack.getFluid()
-                .getFluidType()
+                .getAttributes()
                 .isLighterThanAir();
 
         float xMin = tankHullWidth;

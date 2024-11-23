@@ -5,6 +5,7 @@ import com.drmangotea.createindustry.registry.TFMGItems;
 import com.drmangotea.createindustry.registry.TFMGMobEffects;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -130,9 +131,10 @@ public class LitLithiumBladeItem extends SwordItem {
             ItemStack stack1 = new ItemStack(TFMGItems.LITHIUM_BLADE.get(),1,stack.getOrCreateTag());
 
 
-            Map<Enchantment, Integer> enchantments = stack.getAllEnchantments();
-
-            enchantments.forEach(stack1::enchant);
+//            Map<Enchantment, Integer> enchantments = stack.getAllEnchantments();
+            ListTag enchantments = stack.getEnchantmentTags();
+// TODO: reimplement this
+//            enchantments.forEach(stack1::enchant);
 
 
 

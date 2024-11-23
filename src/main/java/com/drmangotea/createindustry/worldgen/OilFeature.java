@@ -9,7 +9,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BuddingAmethystBlock;
@@ -23,6 +22,7 @@ import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import net.minecraft.world.level.material.FluidState;
 
 import java.util.List;
+import java.util.Random;
 import java.util.function.Predicate;
 
 public class OilFeature extends Feature<GeodeConfiguration> {
@@ -34,7 +34,7 @@ public class OilFeature extends Feature<GeodeConfiguration> {
 
     public boolean place(FeaturePlaceContext<GeodeConfiguration> p_159836_) {
         GeodeConfiguration geodeconfiguration = p_159836_.config();
-        RandomSource random = p_159836_.random();
+        Random random = p_159836_.random();
         BlockPos blockpos = p_159836_.origin();
         WorldGenLevel worldgenlevel = p_159836_.level();
         int i = geodeconfiguration.minGenOffset;

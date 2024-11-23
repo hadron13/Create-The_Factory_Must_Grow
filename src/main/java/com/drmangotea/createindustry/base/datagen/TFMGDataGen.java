@@ -11,7 +11,7 @@ import com.simibubi.create.foundation.utility.FilesHelper;
 import com.tterrag.registrate.providers.ProviderType;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -19,7 +19,7 @@ import java.util.function.BiConsumer;
 public class TFMGDataGen {
     public static void gatherData(GatherDataEvent event) {
         addExtraRegistrateData();
-        
+
         DataGenerator generator = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         
@@ -29,9 +29,9 @@ public class TFMGDataGen {
         if (server) {
             //generator.addProvider(true, new MStandardRecipeGen(generator));
             TFMGProcessingRecipeGen.registerAll(generator);
-            generator.addProvider(true, new SequencedAssemblyGen(generator));
-            generator.addProvider(true, new MechanicalCraftingGen(generator));
-            generator.addProvider(true, new TFMGStandardRecipeGen(generator));
+            generator.addProvider(new SequencedAssemblyGen(generator));
+            generator.addProvider(new MechanicalCraftingGen(generator));
+            generator.addProvider(new TFMGStandardRecipeGen(generator));
         }
     }
     

@@ -22,7 +22,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
+//import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -39,6 +39,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.levelgen.RandomSource;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
@@ -170,10 +171,10 @@ public class FluidPipeBlockMixin extends PipeBlock implements SimpleWaterloggedB
 		world.scheduleTick(pos, this, 1, TickPriority.HIGH);
 	}
 
-	@Override
-	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource r) {
-		FluidPropagator.propagateChangedPipe(world, pos, state);
-	}
+//	@Override
+//	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource r) {
+//		FluidPropagator.propagateChangedPipe(world, pos, state);
+//	}
 	@Shadow
 	public static boolean isPipe(BlockState state) {
 		return state.getBlock() instanceof FluidPipeBlockMixin;

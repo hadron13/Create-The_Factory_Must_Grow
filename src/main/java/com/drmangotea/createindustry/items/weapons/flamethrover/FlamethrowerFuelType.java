@@ -10,6 +10,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class FlamethrowerFuelType {
-    private List<Supplier<Fluid>> fluids = new ArrayList<>();
+    private List<Optional<Holder<Fluid>>> fluids = new ArrayList<Optional<Holder<Fluid>>>();
     private int spread = 15;
     private float speed = 1;
     private int amount = 4;
@@ -30,7 +31,7 @@ public class FlamethrowerFuelType {
     public FlamethrowerFuelType() {
     }
     
-    public List<Supplier<Fluid>> getFluids() {
+    public List<Optional<Holder<Fluid>>> getFluids() {
         return fluids;
     }
     
@@ -68,9 +69,10 @@ public class FlamethrowerFuelType {
                         JsonPrimitive primitive = element.getAsJsonPrimitive();
                         if (primitive.isString()) {
                             try {
-                                Optional<Holder.Reference<Fluid>> reference = ForgeRegistries.FLUIDS.getDelegate(new ResourceLocation(primitive.getAsString()));
+                                //TODO: check if this even works
+                                @NotNull Optional<Holder<Fluid>> reference = ForgeRegistries.FLUIDS.getHolder(new ResourceLocation(primitive.getAsString()));
                                 if (reference.isPresent()) {
-                                    type.fluids.add(reference.get());
+                                    type.fluids.add(Optional.of(reference.get()));
                                 }
                             } catch (ResourceLocationException e) {
                                 //
@@ -104,8 +106,8 @@ public class FlamethrowerFuelType {
     
     public static void toBuffer(FlamethrowerFuelType type, FriendlyByteBuf buffer) {
         buffer.writeVarInt(type.fluids.size());
-        for (Supplier<Fluid> delegate : type.fluids) {
-            buffer.writeResourceLocation(RegisteredObjects.getKeyOrThrow(delegate.get()));
+        for (Optional<Holder<Fluid>> delegate : type.fluids) {
+            buffer.writeResourceLocation(RegisteredObjects.getKeyOrThrow(delegate.get().value()));
         }
         buffer.writeInt(type.spread);
         buffer.writeFloat(type.speed);
@@ -119,9 +121,9 @@ public class FlamethrowerFuelType {
         FlamethrowerFuelType type = new FlamethrowerFuelType();
         int size = buffer.readVarInt();
         for (int i = 0; i < size; i++) {
-            Optional<Holder.Reference<Fluid>> reference = ForgeRegistries.FLUIDS.getDelegate(buffer.readResourceLocation());
+            @NotNull Optional<Holder<Fluid>> reference = ForgeRegistries.FLUIDS.getHolder(buffer.readResourceLocation());
             if (reference.isPresent()) {
-                type.fluids.add(reference.get());
+                type.fluids.add(reference);
             }
         }
         type.spread = buffer.readInt();
@@ -178,7 +180,7 @@ public class FlamethrowerFuelType {
         @SafeVarargs
         public final Builder addFluids(Supplier<Fluid>... fluids) {
             for (Supplier<Fluid> fluid : fluids)
-                result.fluids.add(ForgeRegistries.FLUIDS.getDelegateOrThrow(fluid.get()));
+                result.fluids.add(ForgeRegistries.FLUIDS.getHolder(fluid.get()));
             return this;
         }
         

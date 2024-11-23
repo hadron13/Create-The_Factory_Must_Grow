@@ -7,7 +7,6 @@ import com.simibubi.create.Create;
 import com.simibubi.create.foundation.utility.VecHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
@@ -15,6 +14,7 @@ import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class TFMGUtils {
@@ -55,7 +55,7 @@ public class TFMGUtils {
             return;
 
 
-        RandomSource r = level.getRandom();
+        Random r = level.getRandom();
 
 
 

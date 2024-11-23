@@ -6,11 +6,13 @@ import com.drmangotea.createindustry.base.ElectricSparkParticle;
 import com.simibubi.create.content.equipment.bell.SoulParticle;
 import com.simibubi.create.foundation.particle.ICustomParticleData;
 import com.simibubi.create.foundation.utility.Lang;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+//import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -35,7 +37,7 @@ public enum TFMGParticleTypes {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void registerFactories(RegisterParticleProvidersEvent event) {
+	public static void registerFactories(ParticleFactoryRegisterEvent event) {
 		for (TFMGParticleTypes particle : values())
 			particle.entry.registerFactory(event);
 	}
@@ -63,9 +65,9 @@ public enum TFMGParticleTypes {
 		}
 
 		@OnlyIn(Dist.CLIENT)
-		public void registerFactory(RegisterParticleProvidersEvent event) {
+		public void registerFactory(ParticleFactoryRegisterEvent event) {
 			typeFactory.get()
-				.register(object.get(), event);
+				.register(object.get(), Minecraft.getInstance().particleEngine);
 		}
 
 	}

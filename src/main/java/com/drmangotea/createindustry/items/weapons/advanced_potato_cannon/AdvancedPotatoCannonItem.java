@@ -31,7 +31,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+//import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.client.IItemRenderProperties;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -224,7 +225,7 @@ public class AdvancedPotatoCannonItem extends ProjectileWeaponItem implements Cu
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+	public void initializeClient(Consumer<IItemRenderProperties> consumer) {
 		consumer.accept(SimpleCustomRenderer.create(this, new AdvancedPotatoCannonItemRenderer()));
 	}
 

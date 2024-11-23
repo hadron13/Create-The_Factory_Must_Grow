@@ -18,9 +18,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
@@ -139,7 +139,7 @@ public class PumpjackBaseBlockEntity extends SmartBlockEntity implements IHaveGo
             return;
 
 
-        tankInventory.setFluid(new FluidStack(TFMGFluids.CRUDE_OIL.getSource(), tankInventory.getFluidAmount() + miningRate));
+        tankInventory.setFluid(new FluidStack(TFMGFluids.CRUDE_OIL.get(), tankInventory.getFluidAmount() + miningRate));
 
     }
 
@@ -155,7 +155,7 @@ public class PumpjackBaseBlockEntity extends SmartBlockEntity implements IHaveGo
         return new SmartFluidTank(8000, this::onFluidStackChanged) {
             @Override
             public boolean isFluidValid(FluidStack stack) {
-                return stack.getFluid().isSame(TFMGFluids.CRUDE_OIL.getSource());
+                return stack.getFluid().isSame(TFMGFluids.CRUDE_OIL.get());
             }
         };
     }
@@ -185,7 +185,7 @@ public class PumpjackBaseBlockEntity extends SmartBlockEntity implements IHaveGo
         }
 
         //--Fluid Info--//
-        LazyOptional<IFluidHandler> handler = this.getCapability(ForgeCapabilities.FLUID_HANDLER);
+        LazyOptional<IFluidHandler> handler = this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
         Optional<IFluidHandler> resolve = handler.resolve();
         if (!resolve.isPresent())
             return false;
@@ -261,7 +261,7 @@ public class PumpjackBaseBlockEntity extends SmartBlockEntity implements IHaveGo
 
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
 
-                if (cap == ForgeCapabilities.FLUID_HANDLER)
+                if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
                     return fluidCapability.cast();
         return super.getCapability(cap, side);
     }

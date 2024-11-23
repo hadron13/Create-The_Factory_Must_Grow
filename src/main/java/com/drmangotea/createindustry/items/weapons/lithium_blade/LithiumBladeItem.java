@@ -31,10 +31,10 @@ public class LithiumBladeItem extends SwordItem {
 
         ItemStack stack1 = new ItemStack(TFMGItems.LIT_LITHIUM_BLADE.get(), 1, stack.getOrCreateTag());
 
+        //TODO: reimplement this too
+        //Map<Enchantment, Integer> enchantments = stack.getAllEnchantments();
 
-        Map<Enchantment, Integer> enchantments = stack.getAllEnchantments();
-
-        enchantments.forEach(stack1::enchant);
+        //enchantments.forEach(stack1::enchant);
 
 
 

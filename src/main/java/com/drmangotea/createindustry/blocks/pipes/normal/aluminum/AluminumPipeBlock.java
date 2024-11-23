@@ -19,7 +19,6 @@ import com.simibubi.create.foundation.utility.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -106,12 +105,7 @@ public class AluminumPipeBlock extends FluidPipeBlock {
         return state.setValue(PROPERTY_BY_DIRECTION.get(preferredDirection), true)
                 .setValue(PROPERTY_BY_DIRECTION.get(preferredDirection.getOpposite()), true);
     }
-    @Override
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource r) {
-        super.tick(state,world,pos,r);
 
-
-    }
     @Override
     public InteractionResult onWrenched(BlockState state, UseOnContext context) {
 

@@ -6,7 +6,6 @@ import com.mojang.serialization.Codec;
 import com.simibubi.create.foundation.utility.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -17,6 +16,8 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.Tags;
+
+import java.util.Random;
 
 public class OilWellFeature extends Feature<NoneFeatureConfiguration> {
     public OilWellFeature(Codec<NoneFeatureConfiguration> pCodec) {
@@ -29,7 +30,7 @@ public class OilWellFeature extends Feature<NoneFeatureConfiguration> {
         BlockPos startingPos = context.origin();
         WorldGenLevel level = context.level();
         BlockPos pos = startingPos;
-        RandomSource randomsource = context.random();
+        Random randomsource = context.random();
 
         ChunkGenerator chunkGenerator = context.chunkGenerator();
 
@@ -73,7 +74,7 @@ public class OilWellFeature extends Feature<NoneFeatureConfiguration> {
 
                     if(randomsource.nextInt(10)==7){
                         if(level.getFluidState(pos1).is(Fluids.WATER)||level.getBlockState(pos1).is(Tags.Blocks.SAND)) {
-                            level.setBlock(pos1, TFMGFluids.CRUDE_OIL.getSource().getSource(true).createLegacyBlock(), 3);
+                            level.setBlock(pos1, TFMGFluids.CRUDE_OIL.get().getSource(true).createLegacyBlock(), 3);
                             if(level.getBlockState(pos1).is(Tags.Blocks.SAND))
                                 level.getBlockState(pos1).updateShape(Direction.NORTH,level.getBlockState(pos1),level,pos1,pos1);
                         }
@@ -85,7 +86,7 @@ public class OilWellFeature extends Feature<NoneFeatureConfiguration> {
             }
 
 
-            level.setBlock(pos, TFMGFluids.CRUDE_OIL.getSource().getSource(true).createLegacyBlock(), 3);
+            level.setBlock(pos, TFMGFluids.CRUDE_OIL.get().getSource(true).createLegacyBlock(), 3);
             level.getBlockState(pos).updateShape(Direction.NORTH,level.getBlockState(pos),level,pos,pos);
 
 

@@ -96,7 +96,7 @@ public class TFMGJei implements IModPlugin {
                 gas_blasting = builder(GasBlastingRecipe.class)
                 .addTypedRecipes(TFMGRecipeTypes.GAS_BLASTING)
                 .catalyst(TFMGBlocks.BLAST_STOVE::get)
-                .doubleItemIcon(TFMGBlocks.BLAST_STOVE.get(), TFMGFluids.AIR.getBucket().get())
+                .doubleItemIcon(TFMGBlocks.BLAST_STOVE.get(), TFMGFluids.AIR.get().getBucket())
                 .emptyBackground(177, 150)
                 .build("gas_blasting", GasBlastingCategory::new),
                 

@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.simibubi.create.AllPackets;
 import com.simibubi.create.foundation.networking.SimplePacketBase;
+import net.minecraft.core.Holder;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -88,14 +89,19 @@ public class FlamethrowerFuelTypeManager {
     public static void fillFluidMap() {
         for (Map.Entry<ResourceLocation, FlamethrowerFuelType> entry : BUILTIN_TYPE_MAP.entrySet()) {
             FlamethrowerFuelType type = entry.getValue();
-            for (Supplier<Fluid> delegate : type.getFluids()) {
-                FLUID_TO_TYPE_MAP.put(delegate.get(), type);
+//            for (Supplier<Fluid> delegate : type.getFluids()) {
+//                FLUID_TO_TYPE_MAP.put(delegate.get(), type);
+//            }
+            // TODO: fix this? I have no idea what im doing here
+            for (Optional<Holder<Fluid>> delegate : type.getFluids()) {
+                FLUID_TO_TYPE_MAP.put(delegate.get().value(), type);
             }
         }
         for (Map.Entry<ResourceLocation, FlamethrowerFuelType> entry : CUSTOM_TYPE_MAP.entrySet()) {
             FlamethrowerFuelType type = entry.getValue();
-            for (Supplier<Fluid> delegate : type.getFluids()) {
-                FLUID_TO_TYPE_MAP.put(delegate.get(), type);
+            // TODO: this one too
+            for (Optional<Holder<Fluid>> delegate : type.getFluids()) {
+                FLUID_TO_TYPE_MAP.put(delegate.get().value(), type);
             }
         }
     }

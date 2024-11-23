@@ -14,7 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 
 import java.util.List;
@@ -52,9 +52,9 @@ public class EnergyMeterBlockEntity extends SmartBlockEntity implements IHaveGog
 
 
         if(beBehind!=null)
-            if(beBehind.getCapability(ForgeCapabilities.ENERGY).isPresent()){
-                energy = beBehind.getCapability(ForgeCapabilities.ENERGY).orElse(new EnergyStorage(0)).getEnergyStored();
-                range = beBehind.getCapability(ForgeCapabilities.ENERGY).orElse(new EnergyStorage(0)).getMaxEnergyStored();
+            if(beBehind.getCapability(CapabilityEnergy.ENERGY).isPresent()){
+                energy = beBehind.getCapability(CapabilityEnergy.ENERGY).orElse(new EnergyStorage(0)).getEnergyStored();
+                range = beBehind.getCapability(CapabilityEnergy.ENERGY).orElse(new EnergyStorage(0)).getMaxEnergyStored();
 
             } else energy = 0;
 

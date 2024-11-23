@@ -17,27 +17,34 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.data.event.GatherDataEvent;
+//import net.minecraftforge.common.world.BiomeModifier;
+//import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
- /**
+/**
  * really goofy way to do worldgen but it works
  */
 @Mixin(AllOreFeatureConfigEntries.class)
 public class AllOreFeatureConfigEntriesMixin {
 
 
-
-
+	@Shadow @Final private static Predicate<BiomeLoadingEvent> NETHER_BIOMES;
+	@Shadow @Final private static Predicate<BiomeLoadingEvent> OVERWORLD_BIOMES;
 	@Shadow
 	public static final OreFeatureConfigEntry STRIATED_ORES_OVERWORLD =
 			create("striated_ores_overworld", 32, 1 / 18f, -30, 70)
+					.biomeExt()
+					.predicate(OVERWORLD_BIOMES)
+					.parent()
 					.layeredDatagenExt()
 					.withLayerPattern(TFMGLayeredPatterns.BAUXITE)
 					.withLayerPattern(TFMGLayeredPatterns.LIGNITE)
@@ -49,16 +56,20 @@ public class AllOreFeatureConfigEntriesMixin {
 					.withLayerPattern(AllLayerPatterns.MALACHITE)
 					.withLayerPattern(AllLayerPatterns.LIMESTONE)
 					.withLayerPattern(AllLayerPatterns.OCHRESTONE)
-					.biomeTag(BiomeTags.IS_OVERWORLD)
+
+					//.biomeTag(BiomeTags.IS_OVERWORLD)
 					.parent();
 	@Shadow
 	public static final OreFeatureConfigEntry STRIATED_ORES_NETHER =
 			create("striated_ores_nether", 32, 1 / 18f, 40, 90)
+					.biomeExt()
+					.predicate(NETHER_BIOMES)
+					.parent()
 					.layeredDatagenExt()
 					.withLayerPattern(TFMGLayeredPatterns.SULFUR)
 					.withLayerPattern(AllLayerPatterns.SCORIA_NETHER)
 					.withLayerPattern(AllLayerPatterns.SCORCHIA_NETHER)
-					.biomeTag(BiomeTags.IS_NETHER)
+//					.biomeTag(BiomeTags.IS_NETHER)
 					.parent();
 
 	//
@@ -99,7 +110,7 @@ public class AllOreFeatureConfigEntriesMixin {
 
 		DynamicDataProvider<ConfiguredFeature<?, ?>> configuredFeatureProvider = DynamicDataProvider.create(generator, "Create's Configured Features", registryAccess, Registry.CONFIGURED_FEATURE_REGISTRY, configuredFeatures);
 		if (configuredFeatureProvider != null) {
-			generator.addProvider(true, configuredFeatureProvider);
+			generator.addProvider( configuredFeatureProvider);
 		}
 
 		//
@@ -114,23 +125,23 @@ public class AllOreFeatureConfigEntriesMixin {
 
 		DynamicDataProvider<PlacedFeature> placedFeatureProvider = DynamicDataProvider.create(generator, "Create's Placed Features", registryAccess, Registry.PLACED_FEATURE_REGISTRY, placedFeatures);
 		if (placedFeatureProvider != null) {
-			generator.addProvider(true, placedFeatureProvider);
+			generator.addProvider(placedFeatureProvider);
 		}
 
-		//
 
-		Map<ResourceLocation, BiomeModifier> biomeModifiers = new HashMap<>();
-		for (Map.Entry<ResourceLocation, OreFeatureConfigEntry> entry : OreFeatureConfigEntry.ALL.entrySet()) {
-			OreFeatureConfigEntry.DatagenExtension datagenExt = entry.getValue().datagenExt();
-			if (datagenExt != null) {
-				biomeModifiers.put(entry.getKey(), datagenExt.createBiomeModifier(registryAccess));
-			}
-		}
-
-		DynamicDataProvider<BiomeModifier> biomeModifierProvider = DynamicDataProvider.create(generator, "Create's Biome Modifiers", registryAccess, ForgeRegistries.Keys.BIOME_MODIFIERS, biomeModifiers);
-		if (biomeModifierProvider != null) {
-			generator.addProvider(true, biomeModifierProvider);
-		}
+		//TODO: re-add this?
+//		Map<ResourceLocation, BiomeModifier> biomeModifiers = new HashMap<>();
+//		for (Map.Entry<ResourceLocation, OreFeatureConfigEntry> entry : OreFeatureConfigEntry.ALL.entrySet()) {
+//			OreFeatureConfigEntry.DatagenExtension datagenExt = entry.getValue().datagenExt();
+//			if (datagenExt != null) {
+//				biomeModifiers.put(entry.getKey(), datagenExt.createBiomeModifier(registryAccess));
+//			}
+//		}
+//
+//		DynamicDataProvider<BiomeModifier> biomeModifierProvider = DynamicDataProvider.create(generator, "Create's Biome Modifiers", registryAccess, ForgeRegistries.Keys.BIOME_MODIFIERS, biomeModifiers);
+//		if (biomeModifierProvider != null) {
+//			generator.addProvider(true, biomeModifierProvider);
+//		}
 	}
 }
 

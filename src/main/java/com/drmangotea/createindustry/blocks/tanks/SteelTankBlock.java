@@ -19,6 +19,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
@@ -183,7 +184,8 @@ public class SteelTankBlock extends Block implements IWrenchable, IBE<SteelTankB
                 Fluid fluid = fluidInTank.getFluid();
                 fluidState = fluid.defaultFluidState()
                         .createLegacyBlock();
-                soundevent = FluidHelper.getEmptySound(fluidInTank);
+
+                soundevent = getEmptySound(fluidInTank);
             }
 
             if (exchange == FluidExchange.TANK_TO_ITEM) {
@@ -191,7 +193,7 @@ public class SteelTankBlock extends Block implements IWrenchable, IBE<SteelTankB
                 Fluid fluid = prevFluidInTank.getFluid();
                 fluidState = fluid.defaultFluidState()
                         .createLegacyBlock();
-                soundevent = FluidHelper.getFillSound(prevFluidInTank);
+                soundevent = getFillSound(prevFluidInTank);
             }
 
             if (soundevent != null && !onClient) {
@@ -213,7 +215,7 @@ public class SteelTankBlock extends Block implements IWrenchable, IBE<SteelTankB
                             float level = (float) fluidInTank.getAmount() / fluidTank.getTankCapacity(0);
 
                             boolean reversed = fluidInTank.getFluid()
-                                    .getFluidType()
+                                    .getAttributes()
                                     .isLighterThanAir();
                             if (reversed)
                                 level = 1 - level;
@@ -237,6 +239,22 @@ public class SteelTankBlock extends Block implements IWrenchable, IBE<SteelTankB
 
             return InteractionResult.SUCCESS;
         }
+
+    public static SoundEvent getFillSound(FluidStack fluid) {
+        SoundEvent soundevent = fluid.getFluid().getAttributes().getFillSound();
+        if (soundevent == null)
+            soundevent =
+                    FluidHelper.isTag(fluid, FluidTags.LAVA) ? SoundEvents.BUCKET_FILL_LAVA : SoundEvents.BUCKET_FILL;
+        return soundevent;
+    }
+
+    public static SoundEvent getEmptySound(FluidStack fluid) {
+        SoundEvent soundevent = fluid.getFluid().getAttributes().getEmptySound();
+        if (soundevent == null)
+            soundevent =
+                    FluidHelper.isTag(fluid, FluidTags.LAVA) ? SoundEvents.BUCKET_EMPTY_LAVA : SoundEvents.BUCKET_EMPTY;
+        return soundevent;
+    }
 
         @Override
         public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {

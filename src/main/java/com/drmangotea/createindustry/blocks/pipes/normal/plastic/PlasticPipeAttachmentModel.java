@@ -1,6 +1,7 @@
 package com.drmangotea.createindustry.blocks.pipes.normal.plastic;
 
 import com.drmangotea.createindustry.registry.TFMGPartialModels;
+import com.jozufozu.flywheel.core.materials.model.ModelData;
 import com.simibubi.create.content.decoration.bracket.BracketedBlockEntityBehaviour;
 import com.simibubi.create.content.fluids.FluidTransportBehaviour;
 import com.simibubi.create.content.fluids.pipes.FluidPipeBlock;
@@ -14,17 +15,18 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.ChunkRenderTypeSet;
-import net.minecraftforge.client.model.data.ModelData;
+import net.minecraft.world.level.levelgen.RandomSource;
+import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.client.model.data.ModelProperty;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import static net.minecraft.world.level.block.PipeBlock.PROPERTY_BY_DIRECTION;
 
@@ -36,80 +38,69 @@ public class PlasticPipeAttachmentModel extends BakedModelWrapperWithData {
         super(template);
     }
 
+
     @Override
-    protected ModelData.Builder gatherModelData(ModelData.Builder builder, BlockAndTintGetter world, BlockPos pos, BlockState state,
-                                                ModelData blockEntityData) {
+    protected void gatherModelData(ModelDataMap.Builder builder, BlockAndTintGetter world, BlockPos pos, BlockState state,
+                                   IModelData blockEntityData) {
         PipeModelData data = new PipeModelData();
         FluidTransportBehaviour transport = BlockEntityBehaviour.get(world, pos, FluidTransportBehaviour.TYPE);
         BracketedBlockEntityBehaviour bracket = BlockEntityBehaviour.get(world, pos, BracketedBlockEntityBehaviour.TYPE);
 
         if (transport != null)
-            for (Direction d : Iterate.directions) {
-                boolean shouldConnect = true;
-                if(world.getBlockState(pos.relative(d)).getBlock() instanceof FluidPipeBlock) {
-
-                    if(d.getAxis().isHorizontal())
-                        shouldConnect = world.getBlockState(pos.relative(d)).getValue(PROPERTY_BY_DIRECTION.get(d.getOpposite()));
-
-
-
-                }
-                
+            for (Direction d : Iterate.directions)
                 data.putAttachment(d, transport.getRenderedRimAttachment(world, pos, state, d));
-
-                if(!shouldConnect)
-                    if(state.getBlock() instanceof FluidPipeBlock)
-                        if(state.getValue(PROPERTY_BY_DIRECTION.get(d)))
-                            data.putAttachment(d, FluidTransportBehaviour.AttachmentTypes.RIM);
-
-            }
         if (bracket != null)
             data.putBracket(bracket.getBracket());
 
         data.setEncased(FluidPipeBlock.shouldDrawCasing(world, pos, state));
-        return builder.with(PIPE_PROPERTY, data);
+        builder.withInitial(PIPE_PROPERTY, data);
     }
 
 
-    @SuppressWarnings("removal")
-    @Override
-    public ChunkRenderTypeSet getRenderTypes(@NotNull BlockState state, @NotNull RandomSource rand, @NotNull ModelData data) {
-        ChunkRenderTypeSet set = super.getRenderTypes(state, rand, data);
-        if (set.isEmpty()) {
-            return ItemBlockRenderTypes.getRenderLayers(state);
-        }
-        return set;
-    }
+
+//    @SuppressWarnings("removal")
+//    @Override
+//    public ChunkRenderTypeSet getRenderTypes(@NotNull BlockState state, @NotNull RandomSource rand, @NotNull ModelData data) {
+//        ChunkRenderTypeSet set = super.getRenderTypes(state, rand, data);
+//        if (set.isEmpty()) {
+//            return ItemBlockRenderTypes.getRenderLayers(state);
+//        }
+//        return set;
+//    }
+//
+
 
     @Override
-    public List<BakedQuad> getQuads(BlockState state, Direction side, RandomSource rand, ModelData data, RenderType renderType) {
-        List<BakedQuad> quads = super.getQuads(state, side, rand, data, renderType);
-        if (data.has(PIPE_PROPERTY)) {
-            PipeModelData pipeData = data.get(PIPE_PROPERTY);
+    public List<BakedQuad> getQuads(BlockState state, Direction side, Random rand, IModelData data) {
+        List<BakedQuad> quads = super.getQuads(state, side, rand, data);
+        if (data.hasProperty(PIPE_PROPERTY)) {
+            PipeModelData pipeData = data.getData(PIPE_PROPERTY);
             quads = new ArrayList<>(quads);
-            addQuads(quads, state, side, rand, data, pipeData, renderType);
+            addQuads(quads, state, side, rand, data, pipeData);
         }
         return quads;
     }
 
-    private void addQuads(List<BakedQuad> quads, BlockState state, Direction side, RandomSource rand, ModelData data,
-                          PipeModelData pipeData, RenderType renderType) {
+    private void addQuads(List<BakedQuad> quads, BlockState state, Direction side, Random rand, IModelData data,
+                          PipeModelData pipeData) {
         BakedModel bracket = pipeData.getBracket();
         if (bracket != null)
-            quads.addAll(bracket.getQuads(state, side, rand, data, renderType));
+            quads.addAll(bracket.getQuads(state, side, rand, data));
         for (Direction d : Iterate.directions) {
             FluidTransportBehaviour.AttachmentTypes type = pipeData.getAttachment(d);
             for (FluidTransportBehaviour.AttachmentTypes.ComponentPartials partial : type.partials) {
                 quads.addAll(TFMGPartialModels.PLASTIC_PIPE_ATTACHMENTS.get(partial)
                         .get(d)
                         .get()
-                        .getQuads(state, side, rand, data, renderType));
+                        .getQuads(state, side, rand, data));
             }
         }
         if (pipeData.isEncased())
             quads.addAll(TFMGPartialModels.PLASTIC_FLUID_PIPE_CASING.get()
-                    .getQuads(state, side, rand, data, renderType));
+                    .getQuads(state, side, rand, data));
     }
+
+
 
     private static class PipeModelData {
         private FluidTransportBehaviour.AttachmentTypes[] attachments;

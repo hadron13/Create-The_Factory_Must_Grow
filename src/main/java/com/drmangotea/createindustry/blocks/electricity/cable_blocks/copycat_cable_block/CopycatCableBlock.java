@@ -35,7 +35,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.ModelDataManager;
+import net.minecraftforge.client.model.ModelDataManager;
+//import net.minecraftforge.client.model.data.ModelDataManager;
 
 import javax.annotation.Nullable;
 
@@ -231,19 +232,19 @@ public class CopycatCableBlock extends Block implements IBE<CopycatCableBlockEnt
 
     // Connected Textures
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public BlockState getAppearance(BlockState state, BlockAndTintGetter level, BlockPos pos, Direction side,
-                                    BlockState queryState, BlockPos queryPos) {
-
-        if (isIgnoredConnectivitySide(level, state, side, pos, queryPos))
-            return state;
-
-        ModelDataManager modelDataManager = level.getModelDataManager();
-        if (modelDataManager == null)
-            return getMaterial(level, pos);
-        return CopycatModel.getMaterial(modelDataManager.getAt(pos));
-    }
+    // TODO: re-add this
+//    @Override
+//    @OnlyIn(Dist.CLIENT)
+//    public BlockState getAppearance(BlockState state, BlockAndTintGetter level, BlockPos pos, Direction side,
+//                                    BlockState queryState, BlockPos queryPos) {
+//
+//        if (isIgnoredConnectivitySide(level, state, side, pos, queryPos))
+//            return state;
+//   state     ModelDataManager modelDataManager = ;
+//        if (modelDataManager == null)
+//            return getMaterial(level, pos);
+//        return CopycatModel.getMaterial(modelDataManager.getAt(pos));
+//    }
 
     public boolean isIgnoredConnectivitySide(BlockAndTintGetter reader, BlockState state, Direction face,
                                              BlockPos fromPos, BlockPos toPos) {

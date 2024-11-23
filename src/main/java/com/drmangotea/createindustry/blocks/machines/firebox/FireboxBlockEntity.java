@@ -24,24 +24,25 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.RandomSource;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Random;
 
 public class FireboxBlockEntity extends SmartBlockEntity {
 
@@ -136,7 +137,7 @@ public class FireboxBlockEntity extends SmartBlockEntity {
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
 		if (!fluidCapability.isPresent())
 			refreshCapability();
-		if (cap == ForgeCapabilities.FLUID_HANDLER)
+		if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
 			return fluidCapability.cast();
 		return super.getCapability(cap, side);
 	}
@@ -213,7 +214,7 @@ public class FireboxBlockEntity extends SmartBlockEntity {
 		if (heatLevel == HeatLevel.NONE)
 			return;
 
-		RandomSource r = level.getRandom();
+		Random r = level.getRandom();
 
 		Vec3 c = VecHelper.getCenterOf(worldPosition);
 		Vec3 v = c.add(VecHelper.offsetRandomly(Vec3.ZERO, r, .125f)
@@ -246,7 +247,7 @@ public class FireboxBlockEntity extends SmartBlockEntity {
 
 	public void spawnParticleBurst(boolean soulFlame) {
 		Vec3 c = VecHelper.getCenterOf(worldPosition);
-		RandomSource r = level.random;
+		Random r = level.random;
 		for (int i = 0; i < 20; i++) {
 			Vec3 offset = VecHelper.offsetRandomly(Vec3.ZERO, r, .5f)
 				.multiply(1, .25f, 1)

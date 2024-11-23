@@ -79,7 +79,7 @@ public class AirIntakeBlockEntity extends KineticBlockEntity implements IWrencha
     //if(!level.isClientSide) {
         int production = ((int) maxShaftSpeed * ((diameter * diameter))) / 10;
         if (tankInventory.getFluidAmount() + production <= tankInventory.getCapacity() && !allObstructed) {
-            tankInventory.setFluid(new FluidStack(TFMGFluids.AIR.getSource(), production + tankInventory.getFluidAmount()));
+            tankInventory.setFluid(new FluidStack(TFMGFluids.AIR.get(), production + tankInventory.getFluidAmount()));
         }
         
         isObstructed = hasBlockInFront(this.getBlockPos());
@@ -550,7 +550,7 @@ public class AirIntakeBlockEntity extends KineticBlockEntity implements IWrencha
         return new SmartFluidTank(8000, this::onFluidStackChanged){
             @Override
             public boolean isFluidValid(FluidStack stack) {
-                return stack.getFluid().isSame(TFMGFluids.AIR.getSource());
+                return stack.getFluid().isSame(TFMGFluids.AIR.get());
             }
         //    @Override
         //    public FluidStack drain(FluidStack resource, FluidAction action) {

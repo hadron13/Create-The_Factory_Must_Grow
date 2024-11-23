@@ -16,9 +16,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import java.util.*;
@@ -361,7 +361,7 @@ public class MultiblockStructure {
     
     public void addToGoggleTooltip(List<Component> tooltip) {
         for (FluidOutputBlockEntity fluidOutput : getFluidOutputBlockEntities()) {
-            LazyOptional<IFluidHandler> handler = fluidOutput.getCapability(ForgeCapabilities.FLUID_HANDLER);
+            LazyOptional<IFluidHandler> handler = fluidOutput.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
             Optional<IFluidHandler> resolve = handler.resolve();
             addFluidTooltip(tooltip, resolve, fluidOutput.getBlockPos());
         }

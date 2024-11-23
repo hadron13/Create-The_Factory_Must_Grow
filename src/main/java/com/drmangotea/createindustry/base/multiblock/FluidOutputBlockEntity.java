@@ -14,10 +14,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
@@ -61,7 +61,7 @@ public class FluidOutputBlockEntity extends SmartBlockEntity implements IHaveGog
             this.refreshCapability();
         }
         
-        return cap == ForgeCapabilities.FLUID_HANDLER ? this.fluidCapability.cast() : super.getCapability(cap, side);
+        return cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY? this.fluidCapability.cast() : super.getCapability(cap, side);
     }
     
     private void refreshCapability() {
@@ -96,7 +96,7 @@ public class FluidOutputBlockEntity extends SmartBlockEntity implements IHaveGog
     }
     
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
-        LazyOptional<IFluidHandler> handler = this.getCapability(ForgeCapabilities.FLUID_HANDLER);
+        LazyOptional<IFluidHandler> handler = this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
         Optional<IFluidHandler> resolve = handler.resolve();
         if (!resolve.isPresent()) {
             return false;

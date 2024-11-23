@@ -19,7 +19,6 @@ import com.simibubi.create.foundation.utility.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -31,6 +30,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.levelgen.RandomSource;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -106,12 +106,7 @@ public class CastIronPipeBlock extends FluidPipeBlock {
         return state.setValue(PROPERTY_BY_DIRECTION.get(preferredDirection), true)
                 .setValue(PROPERTY_BY_DIRECTION.get(preferredDirection.getOpposite()), true);
     }
-    @Override
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource r) {
-        super.tick(state,world,pos,r);
 
-
-    }
     @Override
     public InteractionResult onWrenched(BlockState state, UseOnContext context) {
 

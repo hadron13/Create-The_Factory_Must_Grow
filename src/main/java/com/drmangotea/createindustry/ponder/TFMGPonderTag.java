@@ -12,7 +12,7 @@ public class TFMGPonderTag extends PonderTag {
 
         public static final PonderTag OIL = create("oil")
                 .defaultLang("Oil Related Machines", "Machines used to get, refine and use oil")
-                .item(TFMGFluids.CRUDE_OIL.getBucket().get(), true, false).addToIndex();
+                .item(TFMGFluids.CRUDE_OIL.get().getBucket(), true, false).addToIndex();
 
     public static final PonderTag METALLURGY = create("metallurgy")
             .defaultLang("Metal processing", "Machines related to metal")

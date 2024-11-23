@@ -8,13 +8,12 @@ import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeSerializer;
 import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
 import com.simibubi.create.foundation.utility.RegisteredObjects;
-import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
+import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -22,9 +21,11 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
+import static net.minecraftforge.fluids.FluidAttributes.BUCKET_VOLUME;
+
 public abstract class TFMGProcessingRecipeGen extends TFMGRecipeProvider {
     protected static final List<TFMGProcessingRecipeGen> GENERATORS = new ArrayList<>();
-    protected static final int BUCKET = FluidType.BUCKET_VOLUME;
+    protected static final int BUCKET = BUCKET_VOLUME;
     protected static final int BOTTLE = 250;
     
     public TFMGProcessingRecipeGen(DataGenerator generator) {
@@ -48,7 +49,7 @@ public abstract class TFMGProcessingRecipeGen extends TFMGRecipeProvider {
         GENERATORS.add(new MixingGen(gen));
         GENERATORS.add(new PressingGen(gen));
         
-        gen.addProvider(true, new DataProvider() {
+        gen.addProvider(new DataProvider() {
             
             @Override
             public String getName() {
@@ -56,7 +57,7 @@ public abstract class TFMGProcessingRecipeGen extends TFMGRecipeProvider {
             }
             
             @Override
-            public void run(@NotNull CachedOutput dc) {
+            public void run(@NotNull HashCache dc) {
                 GENERATORS.forEach(g -> {
                     try {
                         g.run(dc);

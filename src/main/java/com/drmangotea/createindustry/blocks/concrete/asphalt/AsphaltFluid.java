@@ -2,9 +2,9 @@ package com.drmangotea.createindustry.blocks.concrete.asphalt;
 
 import com.drmangotea.createindustry.registry.TFMGBlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.levelgen.RandomSource;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
@@ -26,14 +26,14 @@ public class AsphaltFluid extends ForgeFlowingFluid {
         return 8;
     }
 
-    @Override
-    public void randomTick(Level level, BlockPos pos, FluidState p_230574_, RandomSource randomSource) {
-        int random = randomSource.nextInt(7) ;
-
-        if(random==2) {
-            level.setBlock(pos, TFMGBlocks.ASPHALT.get().defaultBlockState(), 3);
-        }
-    }
+//    @Override
+//    public void randomTick(Level level, BlockPos pos, FluidState p_230574_, RandomSource randomSource) {
+//        int random = randomSource.nextInt(7) ;
+//
+//        if(random==2) {
+//            level.setBlock(pos, TFMGBlocks.ASPHALT.get().defaultBlockState(), 3);
+//        }
+//    }
 
     protected boolean isRandomlyTicking() {
         return true;

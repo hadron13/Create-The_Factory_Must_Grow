@@ -115,6 +115,11 @@ repositories {
         }
     }
     maven {
+        // Location of the maven that hosts JEI files (and TiC) [1.18.2]
+        name 'Progwml6 maven'
+        url 'https://dvs1.progwml6.com/files/maven'
+    }
+    maven {
         // location of the maven that hosts JEI files since January 2023
         // location of the maven for Vazkii's mods
         name = "Jared's maven"
@@ -151,9 +156,8 @@ dependencies {
 
     //implementation fg.deobf("curse.maven:create-steam-n-rails-688231:5246888")
 
-    compileOnly fg.deobf("mezz.jei:jei-${jei_minecraft_version}-common-api:${jei_version}")
-   compileOnly fg.deobf("mezz.jei:jei-${jei_minecraft_version}-forge-api:${jei_version}")
-   runtimeOnly fg.deobf("mezz.jei:jei-${jei_minecraft_version}-forge:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}")
 
 
 

@@ -95,7 +95,7 @@ public class RebarFormWorkBlockEntity extends FormWorkBlockEntity {
                     FluidTank checkedTank = ((RebarFormWorkBlockEntity) CheckedBE).tankInventory;
                     if (checkedTank.getFluidAmount() < 1000) {
                   if(checkedTank.getFluidAmount()>=995&&tankInventory.getFluidAmount()>0){
-                      checkedTank.setFluid(new FluidStack(TFMGFluids.LIQUID_CONCRETE.getSource(), checkedTank.getFluidAmount()+1));
+                      checkedTank.setFluid(new FluidStack(TFMGFluids.LIQUID_CONCRETE.get(), checkedTank.getFluidAmount()+1));
                       //tankInventory.drain(1, IFluidHandler.FluidAction.EXECUTE);
                 //      continue;
                   }
@@ -115,7 +115,7 @@ public class RebarFormWorkBlockEntity extends FormWorkBlockEntity {
                      //       toRemove = reducedAmount - amountModifier;
                         }
                         //
-                        checkedTank.setFluid(new FluidStack(TFMGFluids.LIQUID_CONCRETE.getSource(), newFluidAmount));
+                        checkedTank.setFluid(new FluidStack(TFMGFluids.LIQUID_CONCRETE.get(), newFluidAmount));
                         tankInventory.drain(1, IFluidHandler.FluidAction.EXECUTE);
 
                     }

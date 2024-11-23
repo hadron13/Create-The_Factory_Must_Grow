@@ -43,7 +43,7 @@ public class CastingSpoutRenderer extends SafeBlockEntityRenderer<CastingSpoutBl
 
         if (!fluidStack.isEmpty() && level != 0) {
             boolean top = fluidStack.getFluid()
-                    .getFluidType()
+                    .getAttributes()
                     .isLighterThanAir();
 
             level = Math.max(level, 0.175f);

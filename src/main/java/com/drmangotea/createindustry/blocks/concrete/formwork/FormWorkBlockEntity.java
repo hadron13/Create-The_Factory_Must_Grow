@@ -40,7 +40,7 @@ public class FormWorkBlockEntity extends TFMGMachineBlockEntity {
         return new SmartFluidTank(1000, this::onFluidStackChanged){
             @Override
             public boolean isFluidValid(FluidStack stack) {
-                return stack.getFluid().isSame(TFMGFluids.LIQUID_CONCRETE.getSource());
+                return stack.getFluid().isSame(TFMGFluids.LIQUID_CONCRETE.get());
             }
             @Override
             public FluidStack drain(FluidStack resource, FluidAction action) {
@@ -115,7 +115,7 @@ public class FormWorkBlockEntity extends TFMGMachineBlockEntity {
                     FluidTank checkedTank = ((FormWorkBlockEntity) CheckedBE).tankInventory;
                     if (checkedTank.getFluidAmount() < 1000) {
                   if(checkedTank.getFluidAmount()>=995&&tankInventory.getFluidAmount()>0){
-                      checkedTank.setFluid(new FluidStack(TFMGFluids.LIQUID_CONCRETE.getSource(), checkedTank.getFluidAmount()+1));
+                      checkedTank.setFluid(new FluidStack(TFMGFluids.LIQUID_CONCRETE.get(), checkedTank.getFluidAmount()+1));
                       //tankInventory.drain(1, IFluidHandler.FluidAction.EXECUTE);
                 //      continue;
                   }
@@ -135,7 +135,7 @@ public class FormWorkBlockEntity extends TFMGMachineBlockEntity {
                      //       toRemove = reducedAmount - amountModifier;
                         }
                         //
-                        checkedTank.setFluid(new FluidStack(TFMGFluids.LIQUID_CONCRETE.getSource(), newFluidAmount));
+                        checkedTank.setFluid(new FluidStack(TFMGFluids.LIQUID_CONCRETE.get(), newFluidAmount));
                         tankInventory.drain(1, IFluidHandler.FluidAction.EXECUTE);
 
                     }

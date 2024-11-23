@@ -6,12 +6,10 @@ package com.drmangotea.createindustry.registry;
 import com.drmangotea.createindustry.CreateTFMG;
 import com.drmangotea.createindustry.base.util.TFMGUtils;
 import com.drmangotea.createindustry.blocks.concrete.ConcreteFluid;
-import com.drmangotea.createindustry.blocks.concrete.ConcreteFluidType;
 import com.drmangotea.createindustry.blocks.concrete.asphalt.AsphaltFluid;
-import com.drmangotea.createindustry.blocks.fluids.*;
+//import com.drmangotea.createindustry.blocks.fluids.*;
 import com.simibubi.create.AllTags;
 
-import com.simibubi.create.content.decoration.palettes.AllPaletteStoneTypes;
 import com.simibubi.create.content.fluids.VirtualFluid;
 import com.tterrag.registrate.util.entry.FluidEntry;
 
@@ -19,8 +17,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.fluids.FluidInteractionRegistry;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 
 import static com.drmangotea.createindustry.CreateTFMG.REGISTRATE;
@@ -81,16 +77,14 @@ public class TFMGFluids {
 
 
     public static final FluidEntry<ForgeFlowingFluid.Flowing> COOLING_FLUID =
-            REGISTRATE.fluid("cooling_fluid",COOLING_FLUID_STILL_RL,COOLING_FLUID_FLOW_RL,
-                            ConcreteFluidType.create(0x333333,
-                                    () -> 1f / 24f ))
+            REGISTRATE.fluid("cooling_fluid",COOLING_FLUID_STILL_RL,COOLING_FLUID_FLOW_RL)
                     .lang("Cooling Fluid")
-                    .properties(b -> b.viscosity(1000)
-                            .density(1000))
-                    .fluidProperties(p -> p.levelDecreasePerBlock(1)
+                    .attributes(b -> b.viscosity(1000).density(1000))
+                    .properties(p -> p.levelDecreasePerBlock(1)
                             .tickRate(10)
                             .slopeFindDistance(5)
                             .explosionResistance(100f))
+
 
                     .source(ForgeFlowingFluid.Source::new)
                     .bucket()
@@ -102,13 +96,10 @@ public class TFMGFluids {
 
 
     public static final FluidEntry<ForgeFlowingFluid.Flowing> SULFURIC_ACID =
-            REGISTRATE.fluid("sulfuric_acid",SULFURIC_AXID_STILL_RL,SULFURIC_AXID_FLOW_RL,
-                            AcidFluidType.create(0x333333,
-                                    () -> 1f / 24f ))
+            REGISTRATE.fluid("sulfuric_acid",SULFURIC_AXID_STILL_RL,SULFURIC_AXID_FLOW_RL)
                     .lang("Sulfuric Acid")
-                    .properties(b -> b.viscosity(1000)
-                            .density(1000))
-                    .fluidProperties(p -> p.levelDecreasePerBlock(1)
+                    .attributes(b -> b.viscosity(1000).density(1000))
+                    .properties(p -> p.levelDecreasePerBlock(1)
                             .tickRate(10)
                             .slopeFindDistance(5)
                             .explosionResistance(100f))
@@ -126,17 +117,13 @@ public class TFMGFluids {
 
 
     public static final FluidEntry<ForgeFlowingFluid.Flowing> LIQUID_CONCRETE =
-            REGISTRATE.fluid("liquid_concrete",CONCRETE_RL,CONCRETE_RL,
-                            ConcreteFluidType.create(0x333333,
-                                    () -> 1f / 24f ))
+            REGISTRATE.fluid("liquid_concrete",CONCRETE_RL,CONCRETE_RL)
                     .lang("Liquid Concrete")
-                    .properties(b -> b.viscosity(9999)
-                            .density(9999))
-                    .fluidProperties(p -> p.levelDecreasePerBlock(0)
+                    .attributes(b -> b.viscosity(9999).density(9999))
+                    .properties(p -> p.levelDecreasePerBlock(0)
                             .tickRate(99999)
                             .slopeFindDistance(0)
-                            .explosionResistance(4f)
-                            )
+                            .explosionResistance(4f))
                     .source(ConcreteFluid.Source::new)
                     .bucket()
                     //.tag(AllTags.forgeItemTag("buckets/napalm"))
@@ -144,17 +131,14 @@ public class TFMGFluids {
                     .register();
 
     public static final FluidEntry<ForgeFlowingFluid.Flowing> LIQUID_ASPHALT =
-            REGISTRATE.fluid("liquid_asphalt", ASPHALT_RL, ASPHALT_RL,
-                            ConcreteFluidType.create(0x333333,
-                                    () -> 1f / 24f ))
+            REGISTRATE.fluid("liquid_asphalt", ASPHALT_RL, ASPHALT_RL)
                     .lang("Liquid Asphalt")
-                    .properties(b -> b.viscosity(9999)
-                            .density(9999))
-                    .fluidProperties(p -> p.levelDecreasePerBlock(0)
+                    .attributes(b -> b.viscosity(9999).density(9999))
+                    .properties(p -> p.levelDecreasePerBlock(0)
                             .tickRate(99999)
                             .slopeFindDistance(0)
-                            .explosionResistance(4f)
-                    )
+                            .explosionResistance(4f))
+
                     .source(AsphaltFluid.Source::new)
                     .bucket()
                     //.tag(AllTags.forgeItemTag("buckets/napalm"))
@@ -164,13 +148,10 @@ public class TFMGFluids {
 
 
     public static final FluidEntry<ForgeFlowingFluid.Flowing> LIQUID_PLASTIC =
-            REGISTRATE.fluid("liquid_plastic",PLASTIC_STILL_RL,PLASTIC_FLOW_RL
-                            , PlasticFluidType.create(0xc4c4c4,
-                                    () -> 1f / 24f ))
+            REGISTRATE.fluid("liquid_plastic",PLASTIC_STILL_RL,PLASTIC_FLOW_RL)
                     .lang("Liquid Plastic")
-                    .properties(b -> b.viscosity(1500)
-                            .density(1000))
-                    .fluidProperties(p -> p.levelDecreasePerBlock(1)
+                    .attributes(b -> b.viscosity(1500).density(1000))
+                    .properties(p -> p.levelDecreasePerBlock(1)
                             .tickRate(10)
                             .slopeFindDistance(2)
                             .explosionResistance(100f))
@@ -182,15 +163,14 @@ public class TFMGFluids {
                     .register();
 
     public static final FluidEntry<ForgeFlowingFluid.Flowing> MOLTEN_STEEL =
-            REGISTRATE.fluid("molten_steel",MOLTEN_STEEL_STILL_RL,MOLTEN_STEEL_FLOW_RL,
-                            HotFluidType.create(0xfbfbbb, () -> 1f / 24f ))
+            REGISTRATE.fluid("molten_steel",MOLTEN_STEEL_STILL_RL,MOLTEN_STEEL_FLOW_RL)
                     .lang("Molten Steel")
-                    .properties(b -> b.viscosity(1500)
-                            .density(1000))
-                    .fluidProperties(p -> p.levelDecreasePerBlock(1)
+                    .attributes(b -> b.viscosity(1500).density(1000))
+                    .properties(p -> p.levelDecreasePerBlock(1)
                             .tickRate(10)
                             .slopeFindDistance(2)
                             .explosionResistance(100f))
+
                     .tag(TFMGTags.TFMGFluidTags.MOLTEN_STEEL.tag)
                     .source(ForgeFlowingFluid.Source::new)
                     .bucket()
@@ -199,16 +179,13 @@ public class TFMGFluids {
                     .register();
 
     public static final FluidEntry<ForgeFlowingFluid.Flowing> MOLTEN_SLAG =
-            REGISTRATE.fluid("molten_slag",MOLTEN_SLAG_STILL_RL,MOLTEN_SLAG_FLOW_RL ,
-                            HotFluidType.create(0xfbfbbb, () -> 1f / 24f ))
+            REGISTRATE.fluid("molten_slag",MOLTEN_SLAG_STILL_RL,MOLTEN_SLAG_FLOW_RL)
                     .lang("Molten Slag")
-                    .properties(b -> b.viscosity(1500)
-                            .density(1000))
-                    .fluidProperties(p -> p.levelDecreasePerBlock(1)
+                    .attributes(b -> b.viscosity(1500).density(1000))
+                    .properties(p -> p.levelDecreasePerBlock(1)
                             .tickRate(10)
                             .slopeFindDistance(2)
                             .explosionResistance(100f))
-
                     .source(ForgeFlowingFluid.Source::new)
                     .bucket()
                     .tag(AllTags.forgeItemTag("buckets/slag"))
@@ -237,18 +214,16 @@ public class TFMGFluids {
     public static FluidEntry<ForgeFlowingFluid.Flowing> flammableFluid(String name, TagKey<Fluid>... tags){
 
 
-        return  REGISTRATE.fluid(name,CreateTFMG.asResource("fluid/"+name+"_still"),CreateTFMG.asResource("fluid/"+name+"_flow"),
-                FlammableFluidType.create(0x606060,
-                        () -> 1f / 24f ))
+        return  REGISTRATE.fluid(name,CreateTFMG.asResource("fluid/"+name+"_still"),CreateTFMG.asResource("fluid/"+name+"_flow"))
                 .lang(TFMGUtils.fromId(name))
-                .properties(b -> b.viscosity(1000)
-                        .density(1000))
-                .fluidProperties(p -> p.levelDecreasePerBlock(1)
+                .attributes(b -> b.viscosity(1500).density(1000))
+                .properties(p -> p.levelDecreasePerBlock(1)
                         .tickRate(10)
-                        .slopeFindDistance(5)
+                        .slopeFindDistance(2)
                         .explosionResistance(100f))
                 .tag(tags)
-                .source(FlammableFluid.Source::new)
+                .source(ForgeFlowingFluid.Source::new)
+//                .source(FlammableFluid.Source::new)
                 .bucket()
                 .tag(AllTags.forgeItemTag("buckets/"+name))
                 .build()
@@ -313,21 +288,19 @@ public class TFMGFluids {
       //          CRUDE_OIL.get().getFluidType(),
       //          fluidState -> TFMGFluids.POLLUTED_WATER.getBlock().get().defaultBlockState()));
 
-        FluidInteractionRegistry.addInteraction( TFMGFluids.COOLING_FLUID.get().getFluidType(), new FluidInteractionRegistry.InteractionInformation(
-                ForgeMod.LAVA_TYPE.get(),
-                fluidState -> AllPaletteStoneTypes.LIMESTONE.baseBlock
-                        .get()
-                        .defaultBlockState()));
 
+        // TODO: re-add fluid interactions
+//        FluidInteractionRegistry.addInteraction( TFMGFluids.COOLING_FLUID.get().getFluidType(), new FluidInteractionRegistry.InteractionInformation(
+//                ForgeMod.LAVA_TYPE.get(),
+//                fluidState -> AllPaletteStoneTypes.LIMESTONE.baseBlock
+//                        .get()
+//                        .defaultBlockState()));
+//
 
 
 
 
     }
-
-
-
-
 
 
 

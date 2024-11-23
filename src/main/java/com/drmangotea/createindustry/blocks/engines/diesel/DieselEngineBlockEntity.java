@@ -39,9 +39,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.fml.DistExecutor;
@@ -93,8 +93,8 @@ public class DieselEngineBlockEntity extends SmartBlockEntity implements IHaveGo
 
 
 
-		exhaustTank = createInventory(TFMGFluids.CARBON_DIOXIDE.getSource(),true);
-		airTank = createInventory(TFMGFluids.AIR.getSource(),false);
+		exhaustTank = createInventory(TFMGFluids.CARBON_DIOXIDE.get(),true);
+		airTank = createInventory(TFMGFluids.AIR.get(),false);
 
 
 		tanks = Couple.create(fuelTank, exhaustTank);
@@ -341,16 +341,16 @@ public class DieselEngineBlockEntity extends SmartBlockEntity implements IHaveGo
 						fuelModifier = 1;
 
 
-				fuelTank.setFluid(new FluidStack(TFMGFluids.DIESEL.getSource(),fuelTank.getFluidAmount()-(2-fuelModifier)));
+				fuelTank.setFluid(new FluidStack(TFMGFluids.DIESEL.get(),fuelTank.getFluidAmount()-(2-fuelModifier)));
 
 
 		}
 				//airTank.drain(1, IFluidHandler.FluidAction.EXECUTE);
 			if(!airTank.isEmpty()) {
-				airTank.setFluid(new FluidStack(TFMGFluids.AIR.getSource(), airTank.getFluidAmount() - 5));
-			}else expansionBE.airTank.setFluid(new FluidStack(TFMGFluids.AIR.getSource(), expansionBE.airTank.getFluidAmount() - 5));
-			exhaustTank.fill(new FluidStack(TFMGFluids.CARBON_DIOXIDE.getSource(),3), IFluidHandler.FluidAction.EXECUTE);
-				//tanks.get(false).setFluid(new FluidStack(TFMGFluids.CARBON_DIOXIDE.getSource(), tanks.get(false).getFluidAmount()+1));
+				airTank.setFluid(new FluidStack(TFMGFluids.AIR.get(), airTank.getFluidAmount() - 5));
+			}else expansionBE.airTank.setFluid(new FluidStack(TFMGFluids.AIR.get(), expansionBE.airTank.getFluidAmount() - 5));
+			exhaustTank.fill(new FluidStack(TFMGFluids.CARBON_DIOXIDE.get(),3), IFluidHandler.FluidAction.EXECUTE);
+				//tanks.get(false).setFluid(new FluidStack(TFMGFluids.CARBON_DIOXIDE.get(), tanks.get(false).getFluidAmount()+1));
 
 
 
@@ -360,12 +360,12 @@ public class DieselEngineBlockEntity extends SmartBlockEntity implements IHaveGo
 			if (!expansionBE.coolantTank.isEmpty()){
 				strengthModifier +=3;
 				if(consumptionTimer>5)
-					expansionBE.coolantTank.setFluid(new FluidStack(TFMGFluids.COOLING_FLUID.getSource(), expansionBE.coolantTank.getFluidAmount() - 1));
+					expansionBE.coolantTank.setFluid(new FluidStack(TFMGFluids.COOLING_FLUID.get(), expansionBE.coolantTank.getFluidAmount() - 1));
 			}
 			if (!expansionBE.lubricationOilTank.isEmpty()){
 				strengthModifier +=5;
 				if(consumptionTimer>5)
-					expansionBE.lubricationOilTank.setFluid(new FluidStack(TFMGFluids.LUBRICATION_OIL.getSource(), expansionBE.lubricationOilTank.getFluidAmount() - 1));
+					expansionBE.lubricationOilTank.setFluid(new FluidStack(TFMGFluids.LUBRICATION_OIL.get(), expansionBE.lubricationOilTank.getFluidAmount() - 1));
 
 			}
 		}
@@ -497,7 +497,7 @@ public class DieselEngineBlockEntity extends SmartBlockEntity implements IHaveGo
 	@SuppressWarnings("removal")
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
 
-		if (cap == ForgeCapabilities.FLUID_HANDLER)
+		if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
 			return fluidCapability.cast();
 		return super.getCapability(cap, side);
 	}
@@ -535,7 +535,7 @@ public class DieselEngineBlockEntity extends SmartBlockEntity implements IHaveGo
 
 
 		//--Fluid Info--//
-		LazyOptional<IFluidHandler> handler = this.getCapability(ForgeCapabilities.FLUID_HANDLER);
+		LazyOptional<IFluidHandler> handler = this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
 		Optional<IFluidHandler> resolve = handler.resolve();
 		if (!resolve.isPresent())
 			return false;

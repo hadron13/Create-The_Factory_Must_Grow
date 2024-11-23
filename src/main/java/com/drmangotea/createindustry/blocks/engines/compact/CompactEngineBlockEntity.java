@@ -31,10 +31,10 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
@@ -229,7 +229,7 @@ public class CompactEngineBlockEntity extends GeneratingKineticBlockEntity imple
 
 
 ////////////////////////////////////////
-        LazyOptional<IFluidHandler> handler = this.getCapability(ForgeCapabilities.FLUID_HANDLER);
+        LazyOptional<IFluidHandler> handler = this.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
         Optional<IFluidHandler> resolve = handler.resolve();
         if (!resolve.isPresent())
             return false;
@@ -462,7 +462,7 @@ public void write(CompoundTag compound, boolean clientPacket) {
 
         ItemStack stack = pPlayer.getItemInHand(pHand);
 
-        if(stack.is(TFMGFluids.GASOLINE.getBucket().get())&&tankInventory.isEmpty()){
+        if(stack.is(TFMGFluids.GASOLINE.get().getBucket())&&tankInventory.isEmpty()){
 
             tankInventory.setFluid(new FluidStack(TFMGFluids.GASOLINE.get(),1000));
             pPlayer.setItemInHand(pHand, Items.BUCKET.getDefaultInstance());
@@ -522,7 +522,7 @@ public void write(CompoundTag compound, boolean clientPacket) {
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
 
-        if (cap == ForgeCapabilities.FLUID_HANDLER)
+        if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
             return fluidCapability.cast();
         return super.getCapability(cap, side);
     }

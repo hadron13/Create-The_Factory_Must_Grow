@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 
 import java.util.ArrayList;
@@ -226,17 +226,17 @@ public class CableConnectorBlockEntity extends ElectricBlockEntity {
                 }else
                 if(be1!=null) {
 
-                    if (be1.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).isPresent()) {
+                    if (be1.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).isPresent()) {
 
-                        if (!(be1.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).orElse(new EnergyStorage(0)) instanceof TFMGForgeEnergyStorage)) {
-
-
+                        if (!(be1.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).orElse(new EnergyStorage(0)) instanceof TFMGForgeEnergyStorage)) {
 
 
-                            int i = be1.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).orElse(new EnergyStorage(0)).receiveEnergy(1000, true);
+
+
+                            int i = be1.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).orElse(new EnergyStorage(0)).receiveEnergy(1000, true);
                             int y = getForgeEnergy().extractEnergy(1000, true);
 
-                            int j = be1.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).orElse(new EnergyStorage(0)).receiveEnergy(Math.min(y,i), false);
+                            int j = be1.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()).orElse(new EnergyStorage(0)).receiveEnergy(Math.min(y,i), false);
                             getForgeEnergy().extractEnergy(j, false);
 
                         }

@@ -7,7 +7,6 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
@@ -16,6 +15,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.levelgen.RandomSource;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -122,7 +122,7 @@ public class BlueFireBlock extends BaseFireBlock {
     }
 
     public void tick(BlockState p_221160_, ServerLevel p_221161_, BlockPos p_221162_, RandomSource p_221163_) {
-        p_221161_.scheduleTick(p_221162_, this, getFireTickDelay(p_221161_.random));
+        p_221161_.scheduleTick(p_221162_, this, getFireTickDelay(p_221163_));
         if (p_221161_.getGameRules().getBoolean(GameRules.RULE_DOFIRETICK)) {
             if (!p_221160_.canSurvive(p_221161_, p_221162_)) {
                 p_221161_.removeBlock(p_221162_, false);
@@ -266,7 +266,8 @@ public class BlueFireBlock extends BaseFireBlock {
 
     public void onPlace(BlockState p_53479_, Level p_53480_, BlockPos p_53481_, BlockState p_53482_, boolean p_53483_) {
         super.onPlace(p_53479_, p_53480_, p_53481_, p_53482_, p_53483_);
-        p_53480_.scheduleTick(p_53481_, this, getFireTickDelay(p_53480_.random));
+        // TODO: fix this
+        //p_53480_.scheduleTick(p_53481_, this, getFireTickDelay(p_53480_.random));
     }
 
     private static int getFireTickDelay(RandomSource p_221149_) {
@@ -296,71 +297,71 @@ public class BlueFireBlock extends BaseFireBlock {
         fireblock.setFlammable(Blocks.JUNGLE_PLANKS, 5, 20);
         fireblock.setFlammable(Blocks.ACACIA_PLANKS, 5, 20);
         fireblock.setFlammable(Blocks.DARK_OAK_PLANKS, 5, 20);
-        fireblock.setFlammable(Blocks.MANGROVE_PLANKS, 5, 20);
+//        fireblock.setFlammable(Blocks.MANGROVE_PLANKS, 5, 20);
         fireblock.setFlammable(Blocks.OAK_SLAB, 5, 20);
         fireblock.setFlammable(Blocks.SPRUCE_SLAB, 5, 20);
         fireblock.setFlammable(Blocks.BIRCH_SLAB, 5, 20);
         fireblock.setFlammable(Blocks.JUNGLE_SLAB, 5, 20);
         fireblock.setFlammable(Blocks.ACACIA_SLAB, 5, 20);
         fireblock.setFlammable(Blocks.DARK_OAK_SLAB, 5, 20);
-        fireblock.setFlammable(Blocks.MANGROVE_SLAB, 5, 20);
+//        fireblock.setFlammable(Blocks.MANGROVE_SLAB, 5, 20);
         fireblock.setFlammable(Blocks.OAK_FENCE_GATE, 5, 20);
         fireblock.setFlammable(Blocks.SPRUCE_FENCE_GATE, 5, 20);
         fireblock.setFlammable(Blocks.BIRCH_FENCE_GATE, 5, 20);
         fireblock.setFlammable(Blocks.JUNGLE_FENCE_GATE, 5, 20);
         fireblock.setFlammable(Blocks.ACACIA_FENCE_GATE, 5, 20);
         fireblock.setFlammable(Blocks.DARK_OAK_FENCE_GATE, 5, 20);
-        fireblock.setFlammable(Blocks.MANGROVE_FENCE_GATE, 5, 20);
+//        fireblock.setFlammable(Blocks.MANGROVE_FENCE_GATE, 5, 20);
         fireblock.setFlammable(Blocks.OAK_FENCE, 5, 20);
         fireblock.setFlammable(Blocks.SPRUCE_FENCE, 5, 20);
         fireblock.setFlammable(Blocks.BIRCH_FENCE, 5, 20);
         fireblock.setFlammable(Blocks.JUNGLE_FENCE, 5, 20);
         fireblock.setFlammable(Blocks.ACACIA_FENCE, 5, 20);
         fireblock.setFlammable(Blocks.DARK_OAK_FENCE, 5, 20);
-        fireblock.setFlammable(Blocks.MANGROVE_FENCE, 5, 20);
+//        fireblock.setFlammable(Blocks.MANGROVE_FENCE, 5, 20);
         fireblock.setFlammable(Blocks.OAK_STAIRS, 5, 20);
         fireblock.setFlammable(Blocks.BIRCH_STAIRS, 5, 20);
         fireblock.setFlammable(Blocks.SPRUCE_STAIRS, 5, 20);
         fireblock.setFlammable(Blocks.JUNGLE_STAIRS, 5, 20);
         fireblock.setFlammable(Blocks.ACACIA_STAIRS, 5, 20);
         fireblock.setFlammable(Blocks.DARK_OAK_STAIRS, 5, 20);
-        fireblock.setFlammable(Blocks.MANGROVE_STAIRS, 5, 20);
+//        fireblock.setFlammable(Blocks.MANGROVE_STAIRS, 5, 20);
         fireblock.setFlammable(Blocks.OAK_LOG, 5, 5);
         fireblock.setFlammable(Blocks.SPRUCE_LOG, 5, 5);
         fireblock.setFlammable(Blocks.BIRCH_LOG, 5, 5);
         fireblock.setFlammable(Blocks.JUNGLE_LOG, 5, 5);
         fireblock.setFlammable(Blocks.ACACIA_LOG, 5, 5);
         fireblock.setFlammable(Blocks.DARK_OAK_LOG, 5, 5);
-        fireblock.setFlammable(Blocks.MANGROVE_LOG, 5, 5);
+//        fireblock.setFlammable(Blocks.MANGROVE_LOG, 5, 5);
         fireblock.setFlammable(Blocks.STRIPPED_OAK_LOG, 5, 5);
         fireblock.setFlammable(Blocks.STRIPPED_SPRUCE_LOG, 5, 5);
         fireblock.setFlammable(Blocks.STRIPPED_BIRCH_LOG, 5, 5);
         fireblock.setFlammable(Blocks.STRIPPED_JUNGLE_LOG, 5, 5);
         fireblock.setFlammable(Blocks.STRIPPED_ACACIA_LOG, 5, 5);
         fireblock.setFlammable(Blocks.STRIPPED_DARK_OAK_LOG, 5, 5);
-        fireblock.setFlammable(Blocks.STRIPPED_MANGROVE_LOG, 5, 5);
+//        fireblock.setFlammable(Blocks.STRIPPED_MANGROVE_LOG, 5, 5);
         fireblock.setFlammable(Blocks.STRIPPED_OAK_WOOD, 5, 5);
         fireblock.setFlammable(Blocks.STRIPPED_SPRUCE_WOOD, 5, 5);
         fireblock.setFlammable(Blocks.STRIPPED_BIRCH_WOOD, 5, 5);
         fireblock.setFlammable(Blocks.STRIPPED_JUNGLE_WOOD, 5, 5);
         fireblock.setFlammable(Blocks.STRIPPED_ACACIA_WOOD, 5, 5);
         fireblock.setFlammable(Blocks.STRIPPED_DARK_OAK_WOOD, 5, 5);
-        fireblock.setFlammable(Blocks.STRIPPED_MANGROVE_WOOD, 5, 5);
+//        fireblock.setFlammable(Blocks.STRIPPED_MANGROVE_WOOD, 5, 5);
         fireblock.setFlammable(Blocks.OAK_WOOD, 5, 5);
         fireblock.setFlammable(Blocks.SPRUCE_WOOD, 5, 5);
         fireblock.setFlammable(Blocks.BIRCH_WOOD, 5, 5);
         fireblock.setFlammable(Blocks.JUNGLE_WOOD, 5, 5);
         fireblock.setFlammable(Blocks.ACACIA_WOOD, 5, 5);
         fireblock.setFlammable(Blocks.DARK_OAK_WOOD, 5, 5);
-        fireblock.setFlammable(Blocks.MANGROVE_WOOD, 5, 5);
-        fireblock.setFlammable(Blocks.MANGROVE_ROOTS, 5, 20);
+//        fireblock.setFlammable(Blocks.MANGROVE_WOOD, 5, 5);
+//        fireblock.setFlammable(Blocks.MANGROVE_ROOTS, 5, 20);
         fireblock.setFlammable(Blocks.OAK_LEAVES, 30, 60);
         fireblock.setFlammable(Blocks.SPRUCE_LEAVES, 30, 60);
         fireblock.setFlammable(Blocks.BIRCH_LEAVES, 30, 60);
         fireblock.setFlammable(Blocks.JUNGLE_LEAVES, 30, 60);
         fireblock.setFlammable(Blocks.ACACIA_LEAVES, 30, 60);
         fireblock.setFlammable(Blocks.DARK_OAK_LEAVES, 30, 60);
-        fireblock.setFlammable(Blocks.MANGROVE_LEAVES, 30, 60);
+//        fireblock.setFlammable(Blocks.MANGROVE_LEAVES, 30, 60);
         fireblock.setFlammable(Blocks.BOOKSHELF, 30, 20);
         fireblock.setFlammable(Blocks.TNT, 15, 100);
         fireblock.setFlammable(Blocks.GRASS, 60, 100);

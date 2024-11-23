@@ -7,12 +7,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.Create;
 import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
-import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
+import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -21,8 +22,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.io.IOException;
@@ -68,12 +70,13 @@ public class TFMGSoundEvents {
             entry.prepare();
     }
 
-    public static void register(RegisterEvent event) {
-        event.register(Registry.SOUND_EVENT_REGISTRY, helper -> {
-            for (TFMGSoundEvents.SoundEntry entry : ALL.values())
-                entry.register(helper);
-        });
+
+    public static void register(RegistryEvent.Register<SoundEvent> event) {
+        IForgeRegistry<SoundEvent> registry = event.getRegistry();
+        for (TFMGSoundEvents.SoundEntry entry : ALL.values())
+            entry.register(registry);
     }
+
 
     public static JsonObject provideLangEntries() {
         JsonObject object = new JsonObject();
@@ -111,7 +114,7 @@ public class TFMGSoundEvents {
         }
 
         @Override
-        public void run(CachedOutput cache) throws IOException {
+        public void run(HashCache cache) throws IOException {
             generate(generator.getOutputFolder(), cache);
         }
 
@@ -120,7 +123,7 @@ public class TFMGSoundEvents {
             return "TFMG's Custom Sounds";
         }
 
-        public void generate(Path path, CachedOutput cache) {
+        public void generate(Path path, HashCache cache) {
             Gson GSON = (new GsonBuilder()).setPrettyPrinting()
                     .disableHtmlEscaping()
                     .create();
@@ -135,7 +138,7 @@ public class TFMGSoundEvents {
                             entry.getValue()
                                     .write(json);
                         });
-                DataProvider.saveStable(cache, json, path.resolve("sounds.json"));
+                DataProvider.save(GSON, cache, json, path.resolve("sounds.json"));
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -143,6 +146,7 @@ public class TFMGSoundEvents {
         }
 
     }
+
 
     public record ConfiguredSoundEvent(Supplier<SoundEvent> event, float volume, float pitch) {
     }
@@ -214,7 +218,7 @@ public class TFMGSoundEvents {
 
     }
 
-    public static abstract class SoundEntry {
+   	public static abstract class SoundEntry {
 
         protected ResourceLocation id;
         protected String subtitle;
@@ -230,7 +234,7 @@ public class TFMGSoundEvents {
 
         public abstract void prepare();
 
-        public abstract void register(RegisterEvent.RegisterHelper<SoundEvent> registry);
+        public abstract void register(IForgeRegistry<SoundEvent> registry);
 
         public abstract void write(JsonObject json);
 
@@ -295,152 +299,153 @@ public class TFMGSoundEvents {
 
     }
 
-    private static class WrappedSoundEntry extends TFMGSoundEvents.SoundEntry {
+  private static class WrappedSoundEntry extends SoundEntry {
 
-        private List<TFMGSoundEvents.ConfiguredSoundEvent> wrappedEvents;
-        private List<TFMGSoundEvents.WrappedSoundEntry.CompiledSoundEvent> compiledEvents;
+		private List<ConfiguredSoundEvent> wrappedEvents;
+		private List<CompiledSoundEvent> compiledEvents;
 
-        public WrappedSoundEntry(ResourceLocation id, String subtitle,
-                                 List<TFMGSoundEvents.ConfiguredSoundEvent> wrappedEvents, SoundSource category, int attenuationDistance) {
-            super(id, subtitle, category, attenuationDistance);
-            this.wrappedEvents = wrappedEvents;
-            compiledEvents = new ArrayList<>();
-        }
+		public WrappedSoundEntry(ResourceLocation id, String subtitle,
+			List<ConfiguredSoundEvent> wrappedEvents, SoundSource category, int attenuationDistance) {
+			super(id, subtitle, category, attenuationDistance);
+			this.wrappedEvents = wrappedEvents;
+			compiledEvents = new ArrayList<>();
+		}
 
-        @Override
-        public void prepare() {
-            for (int i = 0; i < wrappedEvents.size(); i++) {
-                TFMGSoundEvents.ConfiguredSoundEvent wrapped = wrappedEvents.get(i);
-                ResourceLocation location = getIdOf(i);
-                RegistryObject<SoundEvent> event = RegistryObject.create(location, ForgeRegistries.SOUND_EVENTS);
-                compiledEvents.add(new TFMGSoundEvents.WrappedSoundEntry.CompiledSoundEvent(event, wrapped.volume(), wrapped.pitch()));
-            }
-        }
+		@Override
+		public void prepare() {
+			for (int i = 0; i < wrappedEvents.size(); i++) {
+				ConfiguredSoundEvent wrapped = wrappedEvents.get(i);
+				ResourceLocation location = getIdOf(i);
+				RegistryObject<SoundEvent> event = RegistryObject.create(location, ForgeRegistries.SOUND_EVENTS);
+				compiledEvents.add(new CompiledSoundEvent(event, wrapped.volume(), wrapped.pitch()));
+			}
+		}
 
-        @Override
-        public void register(RegisterEvent.RegisterHelper<SoundEvent> helper) {
-            for (TFMGSoundEvents.WrappedSoundEntry.CompiledSoundEvent compiledEvent : compiledEvents) {
-                ResourceLocation location = compiledEvent.event().getId();
-                helper.register(location, new SoundEvent(location));
-            }
-        }
+		@Override
+		public void register(IForgeRegistry<SoundEvent> registry) {
+			for (CompiledSoundEvent compiledEvent : compiledEvents) {
+				ResourceLocation location = compiledEvent.event().getId();
+				registry.register(new SoundEvent(location).setRegistryName(location));
+			}
+		}
 
-        @Override
-        public SoundEvent getMainEvent() {
-            return compiledEvents.get(0)
-                    .event().get();
-        }
+		@Override
+		public SoundEvent getMainEvent() {
+			return compiledEvents.get(0)
+				.event().get();
+		}
 
-        protected ResourceLocation getIdOf(int i) {
-            return new ResourceLocation(id.getNamespace(), i == 0 ? id.getPath() : id.getPath() + "_compounded_" + i);
-        }
+		protected ResourceLocation getIdOf(int i) {
+			return new ResourceLocation(id.getNamespace(), i == 0 ? id.getPath() : id.getPath() + "_compounded_" + i);
+		}
 
-        @Override
-        public void write(JsonObject json) {
-            for (int i = 0; i < wrappedEvents.size(); i++) {
-                TFMGSoundEvents.ConfiguredSoundEvent event = wrappedEvents.get(i);
-                JsonObject entry = new JsonObject();
-                JsonArray list = new JsonArray();
-                JsonObject s = new JsonObject();
-                s.addProperty("name", event.event()
-                        .get()
-                        .getLocation()
-                        .toString());
-                s.addProperty("type", "event");
-                if (attenuationDistance != 0)
-                    s.addProperty("attenuation_distance", attenuationDistance);
-                list.add(s);
-                entry.add("sounds", list);
-                if (i == 0 && hasSubtitle())
-                    entry.addProperty("subtitle", getSubtitleKey());
-                json.add(getIdOf(i).getPath(), entry);
-            }
-        }
+		@Override
+		public void write(JsonObject json) {
+			for (int i = 0; i < wrappedEvents.size(); i++) {
+				ConfiguredSoundEvent event = wrappedEvents.get(i);
+				JsonObject entry = new JsonObject();
+				JsonArray list = new JsonArray();
+				JsonObject s = new JsonObject();
+				s.addProperty("name", event.event()
+					.get()
+					.getLocation()
+					.toString());
+				s.addProperty("type", "event");
+				if (attenuationDistance != 0)
+					s.addProperty("attenuation_distance", attenuationDistance);
+				list.add(s);
+				entry.add("sounds", list);
+				if (i == 0 && hasSubtitle())
+					entry.addProperty("subtitle", getSubtitleKey());
+				json.add(getIdOf(i).getPath(), entry);
+			}
+		}
 
-        @Override
-        public void play(Level world, Player entity, double x, double y, double z, float volume, float pitch) {
-            for (TFMGSoundEvents.WrappedSoundEntry.CompiledSoundEvent event : compiledEvents) {
-                world.playSound(entity, x, y, z, event.event().get(), category, event.volume() * volume,
-                        event.pitch() * pitch);
-            }
-        }
+		@Override
+		public void play(Level world, Player entity, double x, double y, double z, float volume, float pitch) {
+			for (CompiledSoundEvent event : compiledEvents) {
+				world.playSound(entity, x, y, z, event.event().get(), category, event.volume() * volume,
+					event.pitch() * pitch);
+			}
+		}
 
-        @Override
-        public void playAt(Level world, double x, double y, double z, float volume, float pitch, boolean fade) {
-            for (TFMGSoundEvents.WrappedSoundEntry.CompiledSoundEvent event : compiledEvents) {
-                world.playLocalSound(x, y, z, event.event().get(), category, event.volume() * volume,
-                        event.pitch() * pitch, fade);
-            }
-        }
+		@Override
+		public void playAt(Level world, double x, double y, double z, float volume, float pitch, boolean fade) {
+			for (CompiledSoundEvent event : compiledEvents) {
+				world.playLocalSound(x, y, z, event.event().get(), category, event.volume() * volume,
+					event.pitch() * pitch, fade);
+			}
+		}
 
-        private record CompiledSoundEvent(RegistryObject<SoundEvent> event, float volume, float pitch) {
-        }
+		private record CompiledSoundEvent(RegistryObject<SoundEvent> event, float volume, float pitch) {
+		}
 
-    }
+	}
 
-    private static class CustomSoundEntry extends TFMGSoundEvents.SoundEntry {
+   private static class CustomSoundEntry extends SoundEntry {
 
-        protected List<ResourceLocation> variants;
-        protected RegistryObject<SoundEvent> event;
+		protected List<ResourceLocation> variants;
+		protected RegistryObject<SoundEvent> event;
 
-        public CustomSoundEntry(ResourceLocation id, List<ResourceLocation> variants, String subtitle,
-                                SoundSource category, int attenuationDistance) {
-            super(id, subtitle, category, attenuationDistance);
-            this.variants = variants;
-        }
+		public CustomSoundEntry(ResourceLocation id, List<ResourceLocation> variants, String subtitle,
+			SoundSource category, int attenuationDistance) {
+			super(id, subtitle, category, attenuationDistance);
+			this.variants = variants;
+		}
 
-        @Override
-        public void prepare() {
-            event = RegistryObject.create(id, ForgeRegistries.SOUND_EVENTS);
-        }
+		@Override
+		public void prepare() {
+			event = RegistryObject.create(id, ForgeRegistries.SOUND_EVENTS);
+		}
 
-        public void register(RegisterEvent.RegisterHelper<SoundEvent> helper) {
-            ResourceLocation location = event.getId();
-            helper.register(location, new SoundEvent(location));
-        }
+		@Override
+		public void register(IForgeRegistry<SoundEvent> registry) {
+			ResourceLocation location = event.getId();
+			registry.register(new SoundEvent(location).setRegistryName(location));
+		}
 
-        @Override
-        public SoundEvent getMainEvent() {
-            return event.get();
-        }
+		@Override
+		public SoundEvent getMainEvent() {
+			return event.get();
+		}
 
-        @Override
-        public void write(JsonObject json) {
-            JsonObject entry = new JsonObject();
-            JsonArray list = new JsonArray();
+		@Override
+		public void write(JsonObject json) {
+			JsonObject entry = new JsonObject();
+			JsonArray list = new JsonArray();
 
-            JsonObject s = new JsonObject();
-            s.addProperty("name", id.toString());
-            s.addProperty("type", "file");
-            if (attenuationDistance != 0)
-                s.addProperty("attenuation_distance", attenuationDistance);
-            list.add(s);
+			JsonObject s = new JsonObject();
+			s.addProperty("name", id.toString());
+			s.addProperty("type", "file");
+			if (attenuationDistance != 0)
+				s.addProperty("attenuation_distance", attenuationDistance);
+			list.add(s);
 
-            for (ResourceLocation variant : variants) {
-                s = new JsonObject();
-                s.addProperty("name", variant.toString());
-                s.addProperty("type", "file");
-                if (attenuationDistance != 0)
-                    s.addProperty("attenuation_distance", attenuationDistance);
-                list.add(s);
-            }
+			for (ResourceLocation variant : variants) {
+				s = new JsonObject();
+				s.addProperty("name", variant.toString());
+				s.addProperty("type", "file");
+				if (attenuationDistance != 0)
+					s.addProperty("attenuation_distance", attenuationDistance);
+				list.add(s);
+			}
 
-            entry.add("sounds", list);
-            if (hasSubtitle())
-                entry.addProperty("subtitle", getSubtitleKey());
-            json.add(id.getPath(), entry);
-        }
+			entry.add("sounds", list);
+			if (hasSubtitle())
+				entry.addProperty("subtitle", getSubtitleKey());
+			json.add(id.getPath(), entry);
+		}
 
-        @Override
-        public void play(Level world, Player entity, double x, double y, double z, float volume, float pitch) {
-            world.playSound(entity, x, y, z, event.get(), category, volume, pitch);
-        }
+		@Override
+		public void play(Level world, Player entity, double x, double y, double z, float volume, float pitch) {
+			world.playSound(entity, x, y, z, event.get(), category, volume, pitch);
+		}
 
-        @Override
-        public void playAt(Level world, double x, double y, double z, float volume, float pitch, boolean fade) {
-            world.playLocalSound(x, y, z, event.get(), category, volume, pitch, fade);
-        }
+		@Override
+		public void playAt(Level world, double x, double y, double z, float volume, float pitch, boolean fade) {
+			world.playLocalSound(x, y, z, event.get(), category, volume, pitch, fade);
+		}
 
-    }
+	}
 
 }

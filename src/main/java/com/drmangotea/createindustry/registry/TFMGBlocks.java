@@ -583,7 +583,8 @@ public class TFMGBlocks {
     public static final BlockEntry<CopycatCableBlock> COPYCAT_CABLE_BLOCK =
             REGISTRATE.block("copycat_cable_block", CopycatCableBlock::new)
                     .transform(TFMGBuilderTransformers.copycatCable())
-                    .onRegister(CreateRegistrate.blockModel(() -> CopycatCableBlockModel::new))
+                    //TODO: reimplement this
+                    //.onRegister(CreateRegistrate.blockModel(() -> CopycatCableBlockModel::new))
                     .item()
                     .transform(customItemModel())
                     .register();
@@ -1177,7 +1178,7 @@ public class TFMGBlocks {
                     .properties(p -> p.color(MaterialColor.COLOR_ORANGE))
                     .properties(p -> p.lightLevel(s -> 15))
                     .properties(p -> p.noOcclusion()
-                            .noLootTable()
+                            .noDrops()
                             .air())
 
                     .register();
