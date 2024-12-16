@@ -6,8 +6,6 @@
   "refmap": "createindustry.refmap.json",
   "mixins": [
     "AllOreFeatureConfigEntriesMixin",
-    "AreaEffectCloudMixin",
-    "ArrowMixin",
     "BucketItemMixin",
     "FluidPipeBlockMixin",
     "FluidPropagatorMixin"
