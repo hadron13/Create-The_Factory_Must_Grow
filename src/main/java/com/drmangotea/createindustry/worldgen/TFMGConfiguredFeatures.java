@@ -34,47 +34,47 @@ public class TFMGConfiguredFeatures {
     //-------------------------------------------------------------------------------------------------//
 
 
-    public static final Holder<ConfiguredFeature<GeodeConfiguration, ?>> OIL_CONFIGURED =
-            FeatureUtils.register("createindustry:oil", TFMGFeatures.OIL.get(),
-                    new GeodeConfiguration(new GeodeBlockSettings(BlockStateProvider.simple(TFMGFluids.CRUDE_OIL.get().getSource().defaultFluidState().createLegacyBlock()), BlockStateProvider.simple(Blocks.AIR), BlockStateProvider.simple(Blocks.AIR), BlockStateProvider.simple(Blocks.AIR), BlockStateProvider.simple(TFMGBlocks.FOSSILSTONE.get()), List.of(Blocks.AIR.defaultBlockState(), Blocks.AIR.defaultBlockState(), Blocks.AIR.defaultBlockState(), Blocks.AIR.defaultBlockState()), BlockTags.FEATURES_CANNOT_REPLACE, BlockTags.GEODE_INVALID_BLOCKS), new GeodeLayerSettings(1.7D, 2.2D, 3.2D, 4.2D), new GeodeCrackSettings(0.95D, 2.0D, 2), 0.35D, 0.083D, true, UniformInt.of(4, 6), UniformInt.of(3, 4), UniformInt.of(1, 2), -16, 16, 0.05D, 1));
-
+//    public static final Holder<ConfiguredFeature<GeodeConfiguration, ?>> OIL_CONFIGURED =
+//            FeatureUtils.register("createindustry:oil", TFMGFeatures.OIL.get(),
+//                    new GeodeConfiguration(new GeodeBlockSettings(BlockStateProvider.simple(TFMGFluids.CRUDE_OIL.get().getSource().defaultFluidState().createLegacyBlock()), BlockStateProvider.simple(Blocks.AIR), BlockStateProvider.simple(Blocks.AIR), BlockStateProvider.simple(Blocks.AIR), BlockStateProvider.simple(TFMGBlocks.FOSSILSTONE.get()), List.of(Blocks.AIR.defaultBlockState(), Blocks.AIR.defaultBlockState(), Blocks.AIR.defaultBlockState(), Blocks.AIR.defaultBlockState()), BlockTags.FEATURES_CANNOT_REPLACE, BlockTags.GEODE_INVALID_BLOCKS), new GeodeLayerSettings(1.7D, 2.2D, 3.2D, 4.2D), new GeodeCrackSettings(0.95D, 2.0D, 2), 0.35D, 0.083D, true, UniformInt.of(4, 6), UniformInt.of(3, 4), UniformInt.of(1, 2), -16, 16, 0.05D, 1));
+//
 
 //public static final Holder<ConfiguredFeature<OreConfiguration, ?>> SIMULATED_OIL_CONFIGURED =
 //        FeatureUtils.register("createindustry:simulated_oil", TFMGFeatures.SIMULATED_OIL.get(),
 //        new OreConfiguration(BEDROCK, TFMGBlocks.OIL_DEPOSIT.get().defaultBlockState(), 35));
 
 
-    public static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> OIL_DEPOSIT_CONFIGURED =
-            FeatureUtils.register("createindustry:oil_deposit", TFMGFeatures.OIL_DEPOSIT.get(),
-                    new NoneFeatureConfiguration());
-
-
-    public static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> OIL_WELL_CONFIGURED =
-            FeatureUtils.register("createindustry:oil_well", TFMGFeatures.OIL_WELL.get(),
-                    new NoneFeatureConfiguration());
+//    public static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> OIL_DEPOSIT_CONFIGURED =
+//            FeatureUtils.register("createindustry:oil_deposit", TFMGFeatures.OIL_DEPOSIT.get(),
+//                    new NoneFeatureConfiguration());
+//
+//
+//    public static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> OIL_WELL_CONFIGURED =
+//            FeatureUtils.register("createindustry:oil_well", TFMGFeatures.OIL_WELL.get(),
+//                    new NoneFeatureConfiguration());
 
 
     //-------------------------------------------------------------------------------------------------//
 
 
-    public static final Holder<PlacedFeature> OIL_PLACED = PlacementUtils.register("createindustry:oil",
-            OIL_CONFIGURED, RarityFilter.onAverageOnceEvery(120),
-            InSquarePlacement.spread(),
-            HeightRangePlacement.uniform(VerticalAnchor.absolute(-50),
-                    VerticalAnchor.absolute(-10)), BiomeFilter.biome());
+//    public static final Holder<PlacedFeature> OIL_PLACED = PlacementUtils.register("createindustry:oil",
+//            OIL_CONFIGURED, RarityFilter.onAverageOnceEvery(120),
+//            InSquarePlacement.spread(),
+//            HeightRangePlacement.uniform(VerticalAnchor.absolute(-50),
+//                    VerticalAnchor.absolute(-10)), BiomeFilter.biome());
 
 //public static final Holder<PlacedFeature> SIMULATED_OIL_PLACED = PlacementUtils.register("createindustry:simulated_oil",
 //        SIMULATED_OIL_CONFIGURED, RarityFilter.onAverageOnceEvery(75));
 
-    public static final Holder<PlacedFeature> OIL_DEPOSIT_PLACED = PlacementUtils.register("createindustry:oil_deposit",
-            OIL_DEPOSIT_CONFIGURED, RarityFilter.onAverageOnceEvery(50)
-            , HeightRangePlacement.uniform(VerticalAnchor.absolute(-64),
-                    VerticalAnchor.absolute(-64)));
-
-    public static final Holder<PlacedFeature> OIL_WELL_PLACED = PlacementUtils.register("createindustry:oil_well",
-            OIL_WELL_CONFIGURED, RarityFilter.onAverageOnceEvery(200)
-            , HeightRangePlacement.uniform(VerticalAnchor.absolute(-64),
-                    VerticalAnchor.absolute(-64)));
+//    public static final Holder<PlacedFeature> OIL_DEPOSIT_PLACED = PlacementUtils.register("createindustry:oil_deposit",
+//            OIL_DEPOSIT_CONFIGURED, RarityFilter.onAverageOnceEvery(50)
+//            , HeightRangePlacement.uniform(VerticalAnchor.absolute(-64),
+//                    VerticalAnchor.absolute(-64)));
+//
+//    public static final Holder<PlacedFeature> OIL_WELL_PLACED = PlacementUtils.register("createindustry:oil_well",
+//            OIL_WELL_CONFIGURED, RarityFilter.onAverageOnceEvery(200)
+//            , HeightRangePlacement.uniform(VerticalAnchor.absolute(-64),
+//                    VerticalAnchor.absolute(-64)));
 
 
     // public static void register(IEventBus eventBus) {

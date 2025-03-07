@@ -35,23 +35,23 @@ public class TFMGOreConfigEntries {
         return category == Biome.BiomeCategory.NETHER;
     };
 
-    public static final OreFeatureConfigEntry LEAD_ORE =
-            create("lead_ore", 10, 5, -63, 60)
-                    .biomeExt()
-                    .predicate(OVERWORLD_BIOMES)
-                    .parent()
-                    .standardDatagenExt()
-
-                    .withBlocks(Couple.create(TFMGBlocks.LEAD_ORE, TFMGBlocks.DEEPSLATE_LEAD_ORE))
-                    .parent();
-    public static final OreFeatureConfigEntry NICKEL_ORE =
-            create("nickel_ore", 8, 4, -63, 20)
-                    .biomeExt()
-                    .predicate(OVERWORLD_BIOMES)
-                    .parent()
-                    .standardDatagenExt()
-                    .withBlocks(Couple.create(TFMGBlocks.NICKEL_ORE, TFMGBlocks.DEEPSLATE_NICKEL_ORE))
-                    .parent();
+//    public static final OreFeatureConfigEntry LEAD_ORE =
+//            create("lead_ore", 10, 5, -63, 60)
+//                    .biomeExt()
+//                    .predicate(OVERWORLD_BIOMES)
+//                    .parent()
+//                    .standardDatagenExt()
+//
+//                    .withBlocks(Couple.create(TFMGBlocks.LEAD_ORE, TFMGBlocks.DEEPSLATE_LEAD_ORE))
+//                    .parent();
+//    public static final OreFeatureConfigEntry NICKEL_ORE =
+//            create("nickel_ore", 8, 4, -63, 20)
+//                    .biomeExt()
+//                    .predicate(OVERWORLD_BIOMES)
+//                    .parent()
+//                    .standardDatagenExt()
+//                    .withBlocks(Couple.create(TFMGBlocks.NICKEL_ORE, TFMGBlocks.DEEPSLATE_NICKEL_ORE))
+//                    .parent();
 
 
     public static final OreFeatureConfigEntry LITHIUM_ORE =

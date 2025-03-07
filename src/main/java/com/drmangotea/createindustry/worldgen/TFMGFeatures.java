@@ -21,8 +21,8 @@ public class TFMGFeatures {
 
     //-------------------------------------------------------------------------------------------------//
 
-    public static final RegistryObject<Feature<GeodeConfiguration>> OIL = FEATURES.register("oil", () ->
-            new OilFeature(GeodeConfiguration.CODEC));
+//    public static final RegistryObject<Feature<GeodeConfiguration>> OIL = FEATURES.register("oil", () ->
+//            new OilFeature(GeodeConfiguration.CODEC));
 
 
 
@@ -30,11 +30,11 @@ public class TFMGFeatures {
    //        new OreFeature(OreConfiguration.CODEC));
 
 
-    public static final RegistryObject<Feature<NoneFeatureConfiguration>> OIL_DEPOSIT = FEATURES.register("oil_deposit", () ->
-            new OilDepositFeature(NoneFeatureConfiguration.CODEC));
-
-    public static final RegistryObject<Feature<NoneFeatureConfiguration>> OIL_WELL = FEATURES.register("oil_well", () ->
-            new OilWellFeature(NoneFeatureConfiguration.CODEC));
+//    public static final RegistryObject<Feature<NoneFeatureConfiguration>> OIL_DEPOSIT = FEATURES.register("oil_deposit", () ->
+//            new OilDepositFeature(NoneFeatureConfiguration.CODEC));
+//
+//    public static final RegistryObject<Feature<NoneFeatureConfiguration>> OIL_WELL = FEATURES.register("oil_well", () ->
+//            new OilWellFeature(NoneFeatureConfiguration.CODEC));
 
 
     //-------------------------------------------------------------------------------------------------//
