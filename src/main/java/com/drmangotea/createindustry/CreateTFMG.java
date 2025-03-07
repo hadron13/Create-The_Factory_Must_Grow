@@ -133,11 +133,7 @@ public class CreateTFMG
             ItemBlockRenderTypes.setRenderLayer(TFMGColoredFires.BLUE_FIRE.get(), RenderType.cutout());
     }
     private void commonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            final Holder<PlacedFeature> initializeOil = TFMGConfiguredFeatures.OIL_PLACED;
-            final Holder<PlacedFeature> initializeSimulatedOil = TFMGConfiguredFeatures.OIL_DEPOSIT_PLACED;
 
-        });
         TFMGMobEffects.init();
     }
     @SubscribeEvent
